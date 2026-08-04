@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>mourn.wtf — Build your dream profile</title>
+    <link rel="icon" href="/mourn.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #08070c;
+            --bg-2: #0d0b13;
+            --card: #0f0d16;
+            --card-hover: #151221;
+            --border: rgba(255,255,255,.06);
+            --border-strong: rgba(255,255,255,.10);
+            --text: #f4f2f8;
+            --muted: #9a95a8;
+            --muted-2: #726d80;
+            --accent: #8b5cf6;
+            --accent-2: #a78bfa;
+            --accent-glow: rgba(139,92,246,.35);
+            --radius: 16px;
+            --max: 1180px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Inter',system-ui,-apple-system,sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        .wrap {
+            max-width: var(--max);
+            margin: 0 auto;
+            padding: 0 24px
+        }
+
+        /* ambient glow */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background: radial-gradient(60% 45% at 50% -5%, rgba(139,92,246,.16), transparent 70%), radial-gradient(40% 40% at 85% 10%, rgba(124,58,237,.08), transparent 70%);
+        }
+
+        /* ---------- NAV ---------- */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(12px);
+            background: rgba(8,7,12,.6);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: -.02em
+        }
+
+            .brand img {
+                width: 28px;
+                height: 28px;
+                border-radius: 8px;
+                object-fit: cover
+            }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px
+        }
+
+            .nav-links a.nlink {
+                color: var(--muted);
+                font-size: 14px;
+                font-weight: 500;
+                transition: color .15s
+            }
+
+                .nav-links a.nlink:hover {
+                    color: var(--text)
+                }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 10px;
+            padding: 9px 16px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: transform .12s ease, background .15s, border-color .15s, box-shadow .15s;
+        }
+
+            .btn:active {
+                transform: translateY(1px)
+            }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 6px 20px -6px var(--accent-glow)
+        }
+
+            .btn-primary:hover {
+                background: var(--accent-2);
+                box-shadow: 0 8px 28px -6px var(--accent-glow)
+            }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text);
+            border-color: var(--border-strong)
+        }
+
+            .btn-ghost:hover {
+                background: var(--card-hover);
+                border-color: rgba(255,255,255,.18)
+            }
+
+        /* ---------- HERO ---------- */
+        .hero {
+            text-align: center;
+            padding: 120px 0 90px
+        }
+
+            .hero .eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 13px;
+                color: var(--accent-2);
+                background: rgba(139,92,246,.10);
+                border: 1px solid rgba(139,92,246,.22);
+                padding: 6px 14px;
+                border-radius: 999px;
+                margin-bottom: 28px;
+                font-weight: 500;
+            }
+
+            .hero .dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: var(--accent-2);
+                box-shadow: 0 0 10px var(--accent-2)
+            }
+
+            .hero h1 {
+                font-size: clamp(38px,7vw,72px);
+                font-weight: 900;
+                letter-spacing: -.035em;
+                line-height: 1.02;
+                background: linear-gradient(180deg,#fff 30%,#c9c4d6);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+
+            .hero p.sub {
+                max-width: 620px;
+                margin: 22px auto 0;
+                color: var(--muted);
+                font-size: clamp(15px,2vw,18px);
+                line-height: 1.6;
+            }
+
+        .hero-cta {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            margin-top: 36px;
+            flex-wrap: wrap
+        }
+
+        .btn-lg {
+            padding: 13px 24px;
+            font-size: 15px;
+            border-radius: 12px
+        }
+
+        /* ---------- SECTION HEADS ---------- */
+        .section {
+            padding: 70px 0
+        }
+
+        .section-head {
+            text-align: center;
+            margin-bottom: 52px
+        }
+
+            .section-head h2 {
+                font-size: clamp(28px,4vw,42px);
+                font-weight: 800;
+                letter-spacing: -.03em
+            }
+
+            .section-head p {
+                color: var(--muted);
+                margin-top: 12px;
+                font-size: 16px
+            }
+
+        /* ---------- FEATURES ---------- */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 18px
+        }
+
+        .feature {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 26px 24px;
+            transition: transform .18s ease, border-color .18s, background .18s;
+        }
+
+            .feature:hover {
+                transform: translateY(-4px);
+                border-color: rgba(139,92,246,.3);
+                background: var(--card-hover)
+            }
+
+            .feature .ic {
+                width: 42px;
+                height: 42px;
+                border-radius: 11px;
+                display: grid;
+                place-items: center;
+                margin-bottom: 16px;
+                background: rgba(139,92,246,.12);
+                border: 1px solid rgba(139,92,246,.2);
+                color: var(--accent-2);
+            }
+
+                .feature .ic svg {
+                    width: 20px;
+                    height: 20px
+                }
+
+            .feature h3 {
+                font-size: 16px;
+                font-weight: 700;
+                margin-bottom: 8px
+            }
+
+            .feature p {
+                color: var(--muted);
+                font-size: 14px;
+                line-height: 1.55
+            }
+
+        /* ---------- FAQ ---------- */
+        .faq-wrap {
+            max-width: 760px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .faq {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            transition: border-color .18s
+        }
+
+            .faq[open] {
+                border-color: rgba(139,92,246,.28)
+            }
+
+            .faq summary {
+                list-style: none;
+                cursor: pointer;
+                padding: 20px 22px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 16px;
+                font-weight: 600;
+                font-size: 15px;
+            }
+
+                .faq summary::-webkit-details-marker {
+                    display: none
+                }
+
+                .faq summary .chev {
+                    color: var(--muted);
+                    transition: transform .2s;
+                    flex-shrink: 0
+                }
+
+            .faq[open] summary .chev {
+                transform: rotate(180deg);
+                color: var(--accent-2)
+            }
+
+            .faq .ans {
+                padding: 0 22px 20px;
+                color: var(--muted);
+                font-size: 14px;
+                line-height: 1.65
+            }
+
+        /* ---------- CTA ---------- */
+        .cta {
+            text-align: center;
+            padding: 90px 0
+        }
+
+            .cta h2 {
+                font-size: clamp(30px,4.5vw,46px);
+                font-weight: 900;
+                letter-spacing: -.03em
+            }
+
+            .cta p {
+                color: var(--muted);
+                margin-top: 14px;
+                font-size: 16px
+            }
+
+            .cta .hero-cta {
+                margin-top: 32px
+            }
+
+        /* ---------- FOOTER ---------- */
+        footer {
+            border-top: 1px solid var(--border);
+            background: var(--bg-2);
+            padding: 56px 0 34px
+        }
+
+        .foot-cols {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 32px;
+            max-width: 820px;
+            margin: 0 auto
+        }
+
+        .foot-col h4 {
+            color: var(--accent-2);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .02em;
+            margin-bottom: 16px;
+            text-transform: none
+        }
+
+        .foot-col a, .foot-col span {
+            display: block;
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 11px;
+            transition: color .15s
+        }
+
+            .foot-col a:hover {
+                color: var(--text)
+            }
+
+        .copyright {
+            text-align: center;
+            color: var(--muted-2);
+            font-size: 14px;
+            margin-top: 48px
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media(max-width:960px) {
+            .features {
+                grid-template-columns: repeat(2,1fr)
+            }
+        }
+
+        @media(max-width:640px) {
+            .nav-links {
+                gap: 14px
+            }
+
+                .nav-links a.nlink {
+                    display: none
+                }
+
+            .features {
+                grid-template-columns: 1fr
+            }
+
+            .foot-cols {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 28px
+            }
+
+            .hero {
+                padding: 80px 0 60px
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                transition: none !important;
+                scroll-behavior: auto
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="wrap nav-inner">
+            <a href="/" class="brand">
+                <img src="/mourn.png" alt="mourn.wtf" />
+                <span>mourn.wtf</span>
+            </a>
+            <div class="nav-links">
+                <a href="/pricing" class="nlink">Pricing</a>
+                <a href="https://discord.gg/hvkK4gn486" class="nlink" target="_blank" rel="noopener">Discord</a>
+                <!-- Swap this button server-side: show "Dashboard" -> /dashboard when logged in -->
+                <a href="/login" class="btn btn-ghost" id="authBtn">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="wrap">
+            <span class="eyebrow"><span class="dot"></span> Your page, your rules</span>
+            <h1>Build your dream profile</h1>
+            <p class="sub">Create a clean, fully customizable page that stands out. Connect your socials, flex badges, usernames, and ur uid in style.</p>
+            <div class="hero-cta">
+                <a href="/signup" class="btn btn-primary btn-lg">Sign up for free</a>
+                <a href="https://discord.gg/hvkK4gn486" target="_blank" rel="noopener" class="btn btn-ghost btn-lg">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.32 4.37A19.8 19.8 0 0 0 15.45 3a13.6 13.6 0 0 0-.62 1.28 18.3 18.3 0 0 0-5.47 0A13.6 13.6 0 0 0 8.74 3a19.7 19.7 0 0 0-4.88 1.37C.99 8.72.2 12.95.6 17.13a19.9 19.9 0 0 0 6.02 3.05c.49-.67.93-1.38 1.3-2.12-.71-.27-1.4-.6-2.04-1 .17-.13.34-.26.5-.4a14.2 14.2 0 0 0 12.24 0c.17.14.33.27.5.4-.65.4-1.34.73-2.05 1 .38.74.82 1.45 1.31 2.12a19.8 19.8 0 0 0 6.02-3.05c.47-4.87-.8-9.06-3.38-12.76ZM8.02 14.56c-1.18 0-2.15-1.08-2.15-2.4s.95-2.42 2.15-2.42 2.17 1.09 2.15 2.42c0 1.32-.96 2.4-2.15 2.4Zm7.96 0c-1.18 0-2.15-1.08-2.15-2.4s.95-2.42 2.15-2.42 2.17 1.09 2.15 2.42c0 1.32-.95 2.4-2.15 2.4Z" /></svg>
+                    Join our Community
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- FEATURES -->
+    <section class="section" id="features">
+        <div class="wrap">
+            <div class="section-head">
+                <h2>What we have to offer</h2>
+            </div>
+            <div class="features">
+                <div class="feature">
+                    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg></div>
+                    <h3>Links</h3>
+                    <p>Show all your links in one place.</p>
+                </div>
+                <div class="feature">
+                    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" /><path d="M4.5 9a9 9 0 0 1 15 0M2 12h.01M22 12h.01M6 18a7 7 0 0 1 12 0" /></svg></div>
+                    <h3>Profile Customization</h3>
+                    <p>Profile Pictures, Colors, Cards, Animations, Badges, And more.</p>
+                </div>
+                <div class="feature">
+                    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13" /><circle cx="6" cy="18" r="3" /><circle cx="18" cy="16" r="3" /></svg></div>
+                    <h3>Music</h3>
+                    <p>Add your own music to your profile.</p>
+                </div>
+                <div class="feature">
+                    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" /></svg></div>
+                    <h3>Multiple Domains</h3>
+                    <p>Use our domains or add your own custom domain.</p>
+                </div>
+                <div class="feature">
+                    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" /></svg></div>
+                    <h3>Reasonable pricing</h3>
+                    <p>Premium options without enterprise nonsense.</p>
+                </div>
+                <div class="feature">
+                    <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg></div>
+                    <h3>Support</h3>
+                    <p>Help when you need it.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+        <div class="wrap">
+            <div class="section-head">
+                <h2>FAQs</h2>
+                <p>Quick answers. If you have more questions, join our Discord and ask away.</p>
+            </div>
+            <div class="faq-wrap">
+                <details class="faq">
+                    <summary>
+                        What is mourn.wtf?
+                        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                    </summary>
+                    <div class="ans">mourn.wtf is a modern biolink platform that allows you to create and manage your own biolink pages. We also allow you to upload images and share them on Discord or anywhere you want with custom domain support.</div>
+                </details>
+                <details class="faq">
+                    <summary>
+                        How do I create a profile?
+                        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                    </summary>
+                    <div class="ans">To create a profile, simply sign up and start creating your profile. Our user-friendly dashboard will guide you through the process.</div>
+                </details>
+                <details class="faq">
+                    <summary>
+                        How do I get premium?
+                        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                    </summary>
+                    <div class="ans">To upgrade to premium, you can directly contact us on our Discord server and we'll guide you through the process, or go to <a href="/pricing" style="color:var(--accent-2)">mourn.wtf/pricing</a>.</div>
+                </details>
+                <details class="faq">
+                    <summary>
+                        What integrations are available?
+                        <svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9" /></svg>
+                    </summary>
+                    <div class="ans">We have a few integrations available for you to use such as Discord and ShareX. However, you can link most of your social media accounts to your profile using the links page in the dashboard.</div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="wrap">
+            <h2>Ready to get started?</h2>
+            <p>Create your profile, connect your socials, and start showing off.</p>
+            <div class="hero-cta">
+                <a href="/signup" class="btn btn-primary btn-lg">Sign up for free</a>
+                <a href="/login" class="btn btn-ghost btn-lg">Log in</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="wrap">
+            <div class="foot-cols">
+                <div class="foot-col">
+                    <h4>Support</h4>
+                    <a href="https://discord.gg/hvkK4gn486" target="_blank" rel="noopener">Discord</a>
+                    <a href="/docs">Docs</a>
+                    <a href="/status">Status</a>
+                </div>
+                <div class="foot-col">
+                    <h4>Contact</h4>
+                    <a href="mailto:support@mourn.wtf">support@mourn.wtf</a>
+                </div>
+                <div class="foot-col">
+                    <h4>Legal</h4>
+                    <a href="/terms">Terms of Service</a>
+                    <a href="/privacy">Privacy Policy</a>
+                    <a href="/guidelines">Guidelines</a>
+                </div>
+            </div>
+            <div class="copyright">© 2026 mourn.wtf. All rights reserved.</div>
+        </div>
+    </footer>
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"e358b1944e8744e99a854dac743b2ad7","r":1}' crossorigin="anonymous"></script>
+</body>
+</html>

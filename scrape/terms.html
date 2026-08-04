@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms of Service — mourn.wtf</title>
+    <link rel="icon" href="/mourn.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #08070c;
+            --bg-2: #0d0b13;
+            --card: #0f0d16;
+            --field: #0b0a11;
+            --border: rgba(255,255,255,.07);
+            --border-strong: rgba(255,255,255,.12);
+            --text: #f4f2f8;
+            --muted: #9a95a8;
+            --muted-2: #726d80;
+            --accent: #8b5cf6;
+            --accent-2: #a78bfa;
+            --accent-glow: rgba(139,92,246,.35);
+            --max: 820px
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Inter',system-ui,-apple-system,sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column
+        }
+
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                z-index: -1;
+                pointer-events: none;
+                background: radial-gradient(60% 40% at 50% -5%, rgba(139,92,246,.13), transparent 70%)
+            }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        .wrap {
+            max-width: var(--max);
+            margin: 0 auto;
+            padding: 0 24px;
+            width: 100%
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(12px);
+            background: rgba(8,7,12,.6);
+            border-bottom: 1px solid var(--border)
+        }
+
+        .nav-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: -.02em
+        }
+
+            .brand img {
+                width: 28px;
+                height: 28px;
+                border-radius: 8px;
+                object-fit: cover
+            }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px
+        }
+
+            .nav-links a.nlink {
+                color: var(--muted);
+                font-size: 14px;
+                font-weight: 500;
+                transition: color .15s
+            }
+
+                .nav-links a.nlink:hover {
+                    color: var(--text)
+                }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 10px;
+            padding: 9px 16px;
+            cursor: pointer;
+            border: 1px solid var(--border-strong);
+            background: transparent;
+            color: var(--text);
+            transition: background .15s,border-color .15s
+        }
+
+            .btn:hover {
+                background: var(--field);
+                border-color: rgba(255,255,255,.18)
+            }
+
+        main {
+            flex: 1
+        }
+
+        .doc {
+            padding: 70px 0 90px
+        }
+
+            .doc h1 {
+                font-size: clamp(30px,5vw,44px);
+                font-weight: 900;
+                letter-spacing: -.03em
+            }
+
+        .updated {
+            color: var(--muted-2);
+            font-size: 14px;
+            margin-top: 10px;
+            margin-bottom: 44px
+        }
+
+        .doc h2 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -.01em;
+            margin: 38px 0 12px;
+            color: var(--text)
+        }
+
+        .doc p {
+            color: var(--muted);
+            font-size: 15.5px;
+            margin-bottom: 14px
+        }
+
+        .doc ul {
+            color: var(--muted);
+            font-size: 15.5px;
+            margin: 0 0 14px 22px
+        }
+
+        .doc li {
+            margin-bottom: 7px
+        }
+
+        .doc a.inline {
+            color: var(--accent-2);
+            font-weight: 500
+        }
+
+            .doc a.inline:hover {
+                text-decoration: underline
+            }
+
+        .intro {
+            color: var(--muted);
+            font-size: 16px;
+            margin-bottom: 8px
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            background: var(--bg-2);
+            padding: 56px 0 34px;
+            margin-top: 20px
+        }
+
+        .foot-cols {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 32px;
+            max-width: 820px;
+            margin: 0 auto
+        }
+
+        .foot-col h4 {
+            color: var(--accent-2);
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 16px
+        }
+
+        .foot-col a, .foot-col span {
+            display: block;
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 11px;
+            transition: color .15s
+        }
+
+            .foot-col a:hover {
+                color: var(--text)
+            }
+
+        .copyright {
+            text-align: center;
+            color: var(--muted-2);
+            font-size: 14px;
+            margin-top: 48px
+        }
+
+        @media(max-width:640px) {
+            .nav-links {
+                gap: 14px
+            }
+
+                .nav-links a.nlink {
+                    display: none
+                }
+
+            .foot-cols {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 28px
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="brand"><img src="/mourn.png" alt="mourn.wtf" /><span>mourn.wtf</span></a>
+            <div class="nav-links">
+                <a href="/pricing" class="nlink">Pricing</a>
+                <a href="https://discord.gg/hvkK4gn486" class="nlink" target="_blank" rel="noopener">Discord</a>
+                <a href="/login" class="btn" id="authBtn">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="wrap doc">
+            <h1>Terms of Service</h1>
+            <div class="updated">Last updated: July 3, 2026</div>
+
+            <p class="intro">Welcome to mourn.wtf. These Terms of Service ("Terms") govern your access to and use of mourn.wtf and any related services (the "Service"). By creating an account or using the Service, you agree to these Terms. If you do not agree, please do not use the Service.</p>
+
+            <h2>1. Who we are</h2>
+            <p>mourn.wtf is a biolink platform that lets you create a customizable profile page, host and share images, add music, connect social links, and use custom domains. Throughout these Terms, "we," "us," and "our" refer to mourn.wtf.</p>
+
+            <h2>2. Eligibility &amp; accounts</h2>
+            <p>You must be at least 13 years old (or the minimum age of digital consent in your country, if higher) to use the Service. You are responsible for your account, keeping your password secure, and all activity that happens under it. Notify us immediately if you suspect unauthorized use.</p>
+            <p>We limit the number of accounts that may be created from a single network to prevent abuse. Attempting to bypass this limit may result in suspension.</p>
+
+            <h2>3. Acceptable use</h2>
+            <p>Your use of the Service must follow our <a class="inline" href="/guidelines">Guidelines</a>, which are incorporated into these Terms by reference. In short, you agree not to use mourn.wtf for anything illegal, harmful, deceptive, or that infringes the rights of others.</p>
+
+            <h2>4. Your content</h2>
+            <p>You keep ownership of everything you upload or create — your images, links, text, and profile. By posting content, you grant us a limited, non-exclusive license to store, display, and serve that content solely to operate the Service (for example, showing your profile to visitors).</p>
+            <p>You are solely responsible for your content and confirm you have the rights to share it. We may remove content that violates these Terms or our Guidelines.</p>
+
+            <h2>5. Image &amp; file hosting</h2>
+            <p>Premium accounts may upload and share images and media. You must not upload content that is illegal, infringing, or that violates our Guidelines. We may set reasonable limits on file size, storage, and bandwidth, and may adjust them over time.</p>
+
+            <h2>6. Premium &amp; payments</h2>
+            <p>mourn.wtf offers a Premium upgrade for a one-time fee (currently $5 for lifetime access). Payment arrangements are handled directly with us — currently via our <a class="inline" href="https://discord.gg/hvkK4gn486" target="_blank" rel="noopener">Discord</a> support server. Premium features may be added, changed, or removed over time. One-time purchases are generally non-refundable except where required by law.</p>
+
+            <h2>7. Custom domains</h2>
+            <p>You may connect your own domain to your profile. You are responsible for owning that domain and for its registration and renewal. You must not point a domain at the Service in a way that is misleading or infringes another party's rights.</p>
+
+            <h2>8. Termination</h2>
+            <p>You may stop using the Service and delete your account at any time. We may suspend or terminate your access if you violate these Terms or our Guidelines, or to protect the Service and its users. Upon termination, your profile and content may be removed.</p>
+
+            <h2>9. Service provided "as is"</h2>
+            <p>The Service is provided on an "as is" and "as available" basis, without warranties of any kind. We do not guarantee that the Service will be uninterrupted, error-free, or secure. To the maximum extent permitted by law, we disclaim all warranties, express or implied.</p>
+
+            <h2>10. Limitation of liability</h2>
+            <p>To the fullest extent permitted by law, mourn.wtf will not be liable for any indirect, incidental, or consequential damages, or for any loss of data, profits, or goodwill, arising from your use of the Service.</p>
+
+            <h2>11. Changes to these Terms</h2>
+            <p>We may update these Terms from time to time. If we make material changes, we will update the "Last updated" date above and, where appropriate, notify users. Continued use of the Service after changes take effect means you accept the revised Terms.</p>
+
+            <h2>12. Contact</h2>
+            <p>Questions about these Terms? Reach us at <a class="inline" href="mailto:support@mourn.wtf">support@mourn.wtf</a> or on our <a class="inline" href="https://discord.gg/hvkK4gn486" target="_blank" rel="noopener">Discord</a>.</p>
+        </div>
+    </main>
+
+    <footer>
+        <div class="wrap">
+            <div class="foot-cols">
+                <div class="foot-col"><h4>Support</h4><a href="https://discord.gg/hvkK4gn486" target="_blank" rel="noopener">Discord</a><a href="/docs">Docs</a><a href="/status">Status</a></div>
+                <div class="foot-col"><h4>Contact</h4><a href="mailto:support@mourn.wtf">support@mourn.wtf</a></div>
+                <div class="foot-col"><h4>Legal</h4><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/guidelines">Guidelines</a></div>
+            </div>
+            <div class="copyright">© 2026 mourn.wtf. All rights reserved.</div>
+        </div>
+    </footer>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"e358b1944e8744e99a854dac743b2ad7","r":1}' crossorigin="anonymous"></script>
+</body>
+</html>

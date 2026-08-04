@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account — mourn.wtf</title>
+    <link rel="icon" href="/mourn.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <style>
+        :root {
+            --bg: #08070c;
+            --card: #0f0d16;
+            --field: #0b0a11;
+            --border: rgba(255,255,255,.07);
+            --border-strong: rgba(255,255,255,.12);
+            --text: #f4f2f8;
+            --muted: #9a95a8;
+            --muted-2: #726d80;
+            --accent: #8b5cf6;
+            --accent-2: #a78bfa;
+            --accent-glow: rgba(139,92,246,.35);
+            --danger: #f87171;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: 'Inter',system-ui,-apple-system,sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 20px;
+        }
+
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                z-index: -1;
+                pointer-events: none;
+                background: radial-gradient(50% 40% at 50% 0%, rgba(139,92,246,.12), transparent 70%), radial-gradient(40% 40% at 50% 100%, rgba(124,58,237,.06), transparent 70%);
+            }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        .card {
+            width: 100%;
+            max-width: 452px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px 40px 34px;
+            box-shadow: 0 30px 80px -30px rgba(0,0,0,.7);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -.02em;
+            margin-bottom: 26px
+        }
+
+            .logo .accent {
+                color: var(--accent-2)
+            }
+
+        .head {
+            text-align: center;
+            margin-bottom: 30px
+        }
+
+            .head h1 {
+                font-size: 26px;
+                font-weight: 800;
+                letter-spacing: -.02em
+            }
+
+            .head p {
+                color: var(--muted);
+                font-size: 15px;
+                margin-top: 6px
+            }
+
+        .field {
+            margin-bottom: 18px
+        }
+
+            .field label {
+                display: block;
+                font-size: 13px;
+                font-weight: 600;
+                margin-bottom: 8px
+            }
+
+            .field input {
+                width: 100%;
+                background: var(--field);
+                border: 1px solid var(--border);
+                border-radius: 11px;
+                padding: 13px 15px;
+                color: var(--text);
+                font-size: 15px;
+                font-family: inherit;
+                transition: border-color .15s, box-shadow .15s;
+            }
+
+                .field input::placeholder {
+                    color: var(--muted-2)
+                }
+
+                .field input:focus {
+                    outline: none;
+                    border-color: var(--accent);
+                    box-shadow: 0 0 0 3px rgba(139,92,246,.15)
+                }
+
+                .field input[aria-invalid="true"] {
+                    border-color: var(--danger)
+                }
+
+        .err {
+            color: var(--danger);
+            font-size: 12.5px;
+            margin-top: 6px;
+            display: none
+        }
+
+            .err.show {
+                display: block
+            }
+
+        .turnstile-wrap {
+            display: flex;
+            justify-content: center;
+            margin: 22px 0
+        }
+
+        .submit {
+            width: 100%;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 8px 24px -8px var(--accent-glow);
+            transition: background .15s,transform .12s,opacity .15s;
+        }
+
+            .submit:hover {
+                background: var(--accent-2)
+            }
+
+            .submit:active {
+                transform: translateY(1px)
+            }
+
+            .submit:disabled {
+                opacity: .55;
+                cursor: not-allowed
+            }
+
+        .foot {
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            margin-top: 22px
+        }
+
+            .foot a {
+                color: var(--accent-2);
+                font-weight: 600
+            }
+
+                .foot a:hover {
+                    text-decoration: underline
+                }
+
+        @media(max-width:480px) {
+            .card {
+                padding: 32px 24px 28px
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                transition: none !important
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="logo">mourn<span class="accent">.wtf</span></div>
+
+        <div class="head">
+            <h1>Create Account</h1>
+            <p>Fill in your information to get started</p>
+        </div>
+
+        <form id="signupForm" novalidate>
+            <div class="field">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="johndoe" autocomplete="username" required />
+                <div class="err" id="err-username">Username must be 3–20 characters (letters, numbers, _).</div>
+            </div>
+
+            <div class="field">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required />
+                <div class="err" id="err-email">Enter a valid email address.</div>
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="new-password" required />
+                <div class="err" id="err-password">Password must be at least 8 characters.</div>
+            </div>
+
+            <div class="field">
+                <label for="confirm">Confirm Password</label>
+                <input type="password" id="confirm" name="confirm" placeholder="••••••••" autocomplete="new-password" required />
+                <div class="err" id="err-confirm">Passwords do not match.</div>
+            </div>
+
+            <!-- Cloudflare Turnstile widget. Replace data-sitekey with your real site key. -->
+            <div class="turnstile-wrap">
+                <div class="cf-turnstile"
+                     data-sitekey="1x00000000000000000000AA"
+                     data-theme="dark"
+                     data-callback="onTurnstileSuccess"
+                     data-expired-callback="onTurnstileExpired"></div>
+            </div>
+
+            <button type="submit" class="submit" id="submitBtn" disabled>Continue to Verification</button>
+        </form>
+
+        <div class="foot">Already have an account? <a href="/login">Log in</a></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('signupForm');
+        const submitBtn = document.getElementById('submitBtn');
+        let turnstileToken = null;
+
+        // Turnstile callbacks (referenced by data-callback attributes)
+        window.onTurnstileSuccess = (token) => {
+            turnstileToken = token;
+            submitBtn.disabled = false;
+        };
+        window.onTurnstileExpired = () => {
+            turnstileToken = null;
+            submitBtn.disabled = true;
+        };
+
+        const showErr = (id, show) => {
+            document.getElementById('err-' + id).classList.toggle('show', show);
+            document.getElementById(id).setAttribute('aria-invalid', show ? 'true' : 'false');
+        };
+
+        const validators = {
+            username: v => /^[a-zA-Z0-9_]{3,20}$/.test(v),
+            email: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
+            password: v => v.length >= 8,
+            confirm: v => v === document.getElementById('password').value && v.length > 0,
+        };
+
+        // live-clear errors as the user types
+        ['username', 'email', 'password', 'confirm'].forEach(id => {
+            document.getElementById(id).addEventListener('input', () => showErr(id, false));
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const data = {
+                username: document.getElementById('username').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                password: document.getElementById('password').value,
+                confirm: document.getElementById('confirm').value,
+            };
+
+            let ok = true;
+            for (const field of ['username', 'email', 'password', 'confirm']) {
+                const valid = validators[field](data[field]);
+                showErr(field, !valid);
+                if (!valid) ok = false;
+            }
+            if (!ok) return;
+
+            if (!turnstileToken) {
+                alert('Please complete the verification challenge.');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Creating account…';
+
+            try {
+                // POST to your Cloudflare Worker. The Worker verifies the Turnstile token,
+                // enforces the 2-accounts-per-IP limit, creates the profile, and (later) sends
+                // the verification email.
+                const res = await fetch('/api/signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        username: data.username,
+                        email: data.email,
+                        password: data.password,
+                        turnstileToken,               // Worker re-verifies this server-side
+                    }),
+                });
+
+                const result = await res.json().catch(() => ({}));
+
+                if (res.ok) {
+                    // e.g. redirect to a "check your email" page once email verification exists
+                    window.location.href = '/login';
+                } else {
+                    alert(result.error || 'Something went wrong. Please try again.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Continue to Verification';
+                    if (window.turnstile) window.turnstile.reset();
+                    turnstileToken = null;
+                }
+            } catch (err) {
+                alert('Network error. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Continue to Verification';
+            }
+        });
+    </script>
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"e358b1944e8744e99a854dac743b2ad7","r":1}' crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log In — mourn.wtf</title>
+    <link rel="icon" href="/mourn.png" type="image/png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <!-- Plain auto-render — same as the signup page that works. No render=explicit. -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <style>
+        :root {
+            --bg: #08070c;
+            --card: #0f0d16;
+            --field: #0b0a11;
+            --border: rgba(255,255,255,.07);
+            --border-strong: rgba(255,255,255,.12);
+            --text: #f4f2f8;
+            --muted: #9a95a8;
+            --muted-2: #726d80;
+            --accent: #8b5cf6;
+            --accent-2: #a78bfa;
+            --accent-glow: rgba(139,92,246,.35);
+            --danger: #f87171;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        body {
+            font-family: 'Inter',system-ui,-apple-system,sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px 20px
+        }
+
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                z-index: -1;
+                pointer-events: none;
+                background: radial-gradient(50% 40% at 50% 0%, rgba(139,92,246,.12), transparent 70%),radial-gradient(40% 40% at 50% 100%, rgba(124,58,237,.06), transparent 70%)
+            }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        .card {
+            width: 100%;
+            max-width: 452px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px 40px 34px;
+            box-shadow: 0 30px 80px -30px rgba(0,0,0,.7)
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -.02em;
+            margin-bottom: 26px
+        }
+
+            .logo .accent {
+                color: var(--accent-2)
+            }
+
+        .head {
+            text-align: center;
+            margin-bottom: 30px
+        }
+
+            .head h1 {
+                font-size: 26px;
+                font-weight: 800;
+                letter-spacing: -.02em
+            }
+
+            .head p {
+                color: var(--muted);
+                font-size: 15px;
+                margin-top: 6px
+            }
+
+        .field {
+            margin-bottom: 18px
+        }
+
+            .field label {
+                display: block;
+                font-size: 13px;
+                font-weight: 600;
+                margin-bottom: 8px
+            }
+
+            .field input {
+                width: 100%;
+                background: var(--field);
+                border: 1px solid var(--border);
+                border-radius: 11px;
+                padding: 13px 15px;
+                color: var(--text);
+                font-size: 15px;
+                font-family: inherit;
+                transition: border-color .15s, box-shadow .15s
+            }
+
+                .field input::placeholder {
+                    color: var(--muted-2)
+                }
+
+                .field input:focus {
+                    outline: none;
+                    border-color: var(--accent);
+                    box-shadow: 0 0 0 3px rgba(139,92,246,.15)
+                }
+
+        .form-msg {
+            color: var(--danger);
+            font-size: 13px;
+            margin: 2px 0 16px;
+            min-height: 16px;
+            text-align: center
+        }
+
+        .turnstile-wrap {
+            display: flex;
+            justify-content: center;
+            margin: 22px 0;
+            min-height: 65px
+        }
+
+        .submit {
+            width: 100%;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 8px 24px -8px var(--accent-glow);
+            transition: background .15s,transform .12s,opacity .15s
+        }
+
+            .submit:hover {
+                background: var(--accent-2)
+            }
+
+            .submit:active {
+                transform: translateY(1px)
+            }
+
+            .submit:disabled {
+                opacity: .55;
+                cursor: not-allowed
+            }
+
+        .foot {
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+            margin-top: 22px
+        }
+
+            .foot a {
+                color: var(--accent-2);
+                font-weight: 600
+            }
+
+                .foot a:hover {
+                    text-decoration: underline
+                }
+
+        @media(max-width:480px) {
+            .card {
+                padding: 32px 24px 28px
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                transition: none !important
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <div class="logo">mourn<span class="accent">.wtf</span></div>
+
+        <div class="head">
+            <h1>Welcome back</h1>
+            <p>Log in to your account</p>
+        </div>
+
+        <form id="loginForm" novalidate>
+            <div class="field">
+                <label for="identifier">Username or Email</label>
+                <input type="text" id="identifier" name="identifier" placeholder="johndoe" autocomplete="username" required />
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+            </div>
+
+            <div class="form-msg" id="formMsg"></div>
+
+            <!-- Auto-render: the class + data-sitekey is all Turnstile needs. -->
+            <div class="turnstile-wrap">
+                <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-theme="dark"></div>
+            </div>
+
+            <button type="submit" class="submit" id="submitBtn">Log in</button>
+        </form>
+
+        <div class="foot">Don't have an account? <a href="/signup">Sign up</a></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formMsg = document.getElementById('formMsg');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            formMsg.textContent = '';
+
+            const identifier = document.getElementById('identifier').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!identifier || !password) {
+                formMsg.textContent = 'Please fill in both fields.';
+                return;
+            }
+
+            // Read the token straight from the widget at click time.
+            const turnstileToken = (window.turnstile && window.turnstile.getResponse)
+                ? window.turnstile.getResponse()
+                : '';
+
+            if (!turnstileToken) {
+                formMsg.textContent = 'Please wait for the verification to finish, then try again.';
+                return;
+            }
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Logging in…';
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ identifier, password, turnstileToken }),
+                });
+                const result = await res.json().catch(() => ({}));
+
+                if (res.ok) {
+                    window.location.href = '/dashboard';
+                } else {
+                    formMsg.textContent = result.error || 'Login failed.';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Log in';
+                    if (window.turnstile) window.turnstile.reset();
+                }
+            } catch (err) {
+                formMsg.textContent = 'Network error. Please try again.';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Log in';
+                if (window.turnstile) window.turnstile.reset();
+            }
+        });
+    </script>
+
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"e358b1944e8744e99a854dac743b2ad7","r":1}' crossorigin="anonymous"></script>
+</body>
+</html>
