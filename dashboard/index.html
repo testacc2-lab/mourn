@@ -1155,12 +1155,18 @@
         }
 
         function firstLetter() { return (state.username[0] || '?').toUpperCase(); }
+        function publicProfileUrl(username) {
+            const slug = encodeURIComponent(username || '');
+            return (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+                ? location.origin + '/' + slug
+                : 'https://mourn.wtf/' + slug;
+        }
         function hydrate() {
-            const u = state.username, p = state.profile, url = location.origin + '/' + u;
+            const u = state.username, p = state.profile;
             $('sideName').textContent = '@' + u; $('sideAv').textContent = firstLetter();
             $('memAv').textContent = firstLetter(); $('memName').textContent = u;
             $('domUser').textContent = u; document.querySelectorAll('.domUser2').forEach(e => e.textContent = u);
-            $('bioUrl').textContent = 'mourn.wtf/' + u; $('openBtn').href = '/' + u;
+            $('bioUrl').textContent = 'mourn.wtf/' + u; $('openBtn').href = publicProfileUrl(u);
             $('inName').value = p.displayName; $('inLoc').value = p.location; $('inBio').value = p.bio;
             $('clAccent').value = p.colors.accent || '#8b5cf6'; $('clAccentP').value = p.colors.accent || '#8b5cf6';
             $('inSongTitle').value = p.song.title || ''; $('inSongArtist').value = p.song.artist || '';
@@ -1263,7 +1269,7 @@
                 if (r.ok) toast('Saved! Refresh your profile to see it.'); else { const d = await r.json().catch(() => ({})); toast(d.error || 'Save failed', 'err'); }
             } catch { toast('Network error', 'err'); } b.disabled = false; b.textContent = o;
         });
-        $('copyBtn').addEventListener('click', () => navigator.clipboard.writeText(location.origin + '/' + state.username).then(() => toast('Copied!')));
+        $('copyBtn').addEventListener('click', () => navigator.clipboard.writeText(publicProfileUrl(state.username)).then(() => toast('Copied!')));
         $('logoutBtn').addEventListener('click', async () => { await fetch('/api/logout', { method: 'POST' }); location.href = '/login'; });
 
         init();

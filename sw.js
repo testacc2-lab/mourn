@@ -30,7 +30,9 @@ self.addEventListener('fetch', (event) => {
   if (req.mode !== 'navigate') return;
 
   const url = new URL(req.url);
-  if (url.origin !== self.location.origin) return;
+  const isSameOrigin = url.origin === self.location.origin;
+  const isCustomDomain = url.hostname === 'mourn.wtf' || url.hostname === 'www.mourn.wtf';
+  if (!isSameOrigin && !isCustomDomain) return;
 
   const parts = url.pathname.split('/').filter(Boolean);
   if (parts.length !== 1) return;
