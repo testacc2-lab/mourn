@@ -353,6 +353,47 @@
         return /^[a-z0-9_.]{2,20}$/.test(v);
     }
 
+    function isDisposableEmail(v) {
+        const value = String(v || "").trim().toLowerCase();
+        if (!value || !value.includes("@")) return false;
+
+        const domain = value.split("@").pop() || "";
+        const blockedDomains = new Set([
+            "10minutemail.com",
+            "mailinator.com",
+            "mailinator2.com",
+            "maildrop.cc",
+            "tempmail.com",
+            "tempmail.org",
+            "temp-mail.org",
+            "tempmail.plus",
+            "tempmailo.com",
+            "guerrillamail.com",
+            "guerrillamail.biz",
+            "guerrillamail.net",
+            "guerrillamail.org",
+            "yopmail.com",
+            "yopmail.fr",
+            "yopmail.net",
+            "mailnesia.com",
+            "mailtothis.com",
+            "trashmail.com",
+            "throwawaymail.com",
+            "fakemail.net",
+            "getairmail.com",
+            "mailforspam.com",
+            "mailsac.com",
+            "dispostable.com",
+            "mailme.lv",
+            "mailinator.net",
+            "sharklasers.com",
+            "emailondeck.com",
+            "tmails.net",
+        ]);
+
+        return blockedDomains.has(domain) || blockedDomains.has(domain.replace(/^www\./, ""));
+    }
+
     async function checkName(v) {
         if (!v) {
             avail.textContent = "";
@@ -442,6 +483,10 @@
         }
         if (!/^\S+@\S+\.\S+$/.test(email)) {
             showBanner("Enter a valid email");
+            return;
+        }
+        if (isDisposableEmail(email)) {
+            showBanner("Please use a permanent email address. Disposable email providers are not allowed.");
             return;
         }
         if ((password || "").length < 8) {

@@ -105,6 +105,9 @@ async function handleSignup(request, env) {
   if (!isValidEmail(email)) {
     return json({ error: "Enter a valid email" }, 400);
   }
+  if (isDisposableEmail(email)) {
+    return json({ error: "Please use a permanent email address. Disposable email providers are not allowed." }, 400);
+  }
   if (password.length < 8) {
     return json({ error: "Password must be at least 8 characters" }, 400);
   }
@@ -602,6 +605,47 @@ function normalizeEmail(v) {
 
 function isValidEmail(v) {
   return /^\S+@\S+\.\S+$/.test(v);
+}
+
+function isDisposableEmail(v) {
+  const value = String(v || "").trim().toLowerCase();
+  if (!value || !value.includes("@")) return false;
+
+  const domain = value.split("@").pop() || "";
+  const blockedDomains = new Set([
+    "10minutemail.com",
+    "mailinator.com",
+    "mailinator2.com",
+    "maildrop.cc",
+    "tempmail.com",
+    "tempmail.org",
+    "temp-mail.org",
+    "tempmail.plus",
+    "tempmailo.com",
+    "guerrillamail.com",
+    "guerrillamail.biz",
+    "guerrillamail.net",
+    "guerrillamail.org",
+    "yopmail.com",
+    "yopmail.fr",
+    "yopmail.net",
+    "mailnesia.com",
+    "mailtothis.com",
+    "trashmail.com",
+    "throwawaymail.com",
+    "fakemail.net",
+    "getairmail.com",
+    "mailforspam.com",
+    "mailsac.com",
+    "dispostable.com",
+    "mailme.lv",
+    "mailinator.net",
+    "sharklasers.com",
+    "emailondeck.com",
+    "tmails.net",
+  ]);
+
+  return blockedDomains.has(domain) || blockedDomains.has(domain.replace(/^www\./, ""));
 }
 
 function sanitizeHttpUrl(v) {
