@@ -1,297 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Log In — mourn.wtf</title>
-    <link rel="icon" href="/mourn.png" type="image/png" />
+    <link rel="icon" href="/mounrlogomain.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <!-- Plain auto-render — same as the signup page that works. No render=explicit. -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <style>
         :root {
-            --bg: #08070c;
-            --card: #0f0d16;
-            --field: #0b0a11;
-            --border: rgba(255,255,255,.07);
-            --border-strong: rgba(255,255,255,.12);
-            --text: #f4f2f8;
-            --muted: #9a95a8;
-            --muted-2: #726d80;
-            --accent: #8b5cf6;
-            --accent-2: #a78bfa;
-            --accent-glow: rgba(139,92,246,.35);
+            --font-display: "Outfit", "Inter", system-ui, sans-serif;
+            --font-body: "Inter", system-ui, sans-serif;
+            --page-muted: #a39ab7;
+            --page-text: #f6f3ff;
+            --purple: #a855f7;
+            --violet: #c084fc;
             --danger: #f87171;
+            --ok: #4ade80;
+            --grad: linear-gradient(135deg, #7c3aed, #a855f7 55%, #d946ef);
+            --glow: 0 0 26px rgba(168, 85, 247, 0.26);
+            --glass: linear-gradient(180deg, rgba(18,13,29,.86), rgba(10,8,18,.8));
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter',system-ui,-apple-system,sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
+            font-family: var(--font-body);
             min-height: 100vh;
+            color: var(--page-text);
+            background:
+                radial-gradient(64% 58% at 50% -12%, rgba(205,156,255,.30), transparent 66%),
+                radial-gradient(42% 42% at 14% 20%, rgba(168,112,251,.14), transparent 72%),
+                linear-gradient(180deg, #2c1c3f 0%, #1e1630 50%, #120d1b 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 32px 20px
+            padding: 44px 20px;
         }
 
-            body::before {
-                content: "";
-                position: fixed;
-                inset: 0;
-                z-index: -1;
-                pointer-events: none;
-                background: radial-gradient(50% 40% at 50% 0%, rgba(139,92,246,.12), transparent 70%),radial-gradient(40% 40% at 50% 100%, rgba(124,58,237,.06), transparent 70%)
-            }
+        a { color: inherit; text-decoration: none; }
 
-        a {
-            color: inherit;
-            text-decoration: none
-        }
-
-        .card {
-            width: 100%;
-            max-width: 452px;
-            background: var(--card);
-            border: 1px solid var(--border);
+        .glass {
+            background: var(--glass);
+            border: 1px solid rgba(168,85,247,.26);
             border-radius: 20px;
-            padding: 40px 40px 34px;
-            box-shadow: 0 30px 80px -30px rgba(0,0,0,.7)
+            backdrop-filter: blur(16px);
+            box-shadow: var(--glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 430px;
+            padding: 40px 36px 30px;
+        }
+
+        .watermark {
+            position: absolute;
+            opacity: .11;
+            filter: blur(.2px);
+            pointer-events: none;
+        }
+
+        .wm {
+            top: -30px;
+            right: -40px;
+            width: 190px;
+        }
+
+        .spark {
+            position: absolute;
+            color: rgba(215,188,255,.65);
+            font-size: 14px;
+            animation: drift 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translateY(0); opacity: .5; }
+            50% { transform: translateY(-6px); opacity: .9; }
         }
 
         .logo {
-            text-align: center;
-            font-size: 26px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: var(--font-display);
             font-weight: 800;
             letter-spacing: -.02em;
-            margin-bottom: 26px
         }
 
-            .logo .accent {
-                color: var(--accent-2)
-            }
+        .logo img {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
 
-        .head {
+        .wordmark { font-size: 1.12rem; }
+        .wordmark .tld { color: var(--violet); }
+
+        .auth-head {
             text-align: center;
-            margin-bottom: 30px
+            margin-bottom: 26px;
         }
 
-            .head h1 {
-                font-size: 26px;
-                font-weight: 800;
-                letter-spacing: -.02em
-            }
+        .auth-head .logo { margin-bottom: 22px; }
 
-            .head p {
-                color: var(--muted);
-                font-size: 15px;
-                margin-top: 6px
-            }
-
-        .field {
-            margin-bottom: 18px
+        .auth-head h1 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.62rem;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
         }
 
-            .field label {
-                display: block;
-                font-size: 13px;
-                font-weight: 600;
-                margin-bottom: 8px
-            }
+        .auth-head p {
+            color: var(--page-muted);
+            font-size: .87rem;
+            line-height: 1.6;
+        }
 
-            .field input {
-                width: 100%;
-                background: var(--field);
-                border: 1px solid var(--border);
-                border-radius: 11px;
-                padding: 13px 15px;
-                color: var(--text);
-                font-size: 15px;
-                font-family: inherit;
-                transition: border-color .15s, box-shadow .15s
-            }
+        .banner {
+            display: none;
+            border: 1px solid rgba(248,113,113,.35);
+            background: rgba(248,113,113,.14);
+            color: #fecaca;
+            font-size: .82rem;
+            padding: 9px 11px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
 
-                .field input::placeholder {
-                    color: var(--muted-2)
-                }
+        .banner.show { display: block; }
+        .banner.info {
+            border-color: rgba(192,132,252,.35);
+            background: rgba(168,85,247,.14);
+            color: #e9ddff;
+        }
 
-                .field input:focus {
-                    outline: none;
-                    border-color: var(--accent);
-                    box-shadow: 0 0 0 3px rgba(139,92,246,.15)
-                }
+        .field { margin-bottom: 14px; }
 
-        .form-msg {
-            color: var(--danger);
-            font-size: 13px;
-            margin: 2px 0 16px;
-            min-height: 16px;
-            text-align: center
+        .field label {
+            display: block;
+            font-size: .78rem;
+            color: #d9cff2;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .input {
+            width: 100%;
+            border: 1px solid rgba(168,85,247,.26);
+            border-radius: 12px;
+            background: rgba(12,9,20,.78);
+            color: #fff;
+            padding: 11px 12px;
+            font-size: .9rem;
+            outline: none;
+            font-family: var(--font-body);
+        }
+
+        .input::placeholder { color: #6f6584; }
+        .input:focus { border-color: rgba(192,132,252,.7); box-shadow: 0 0 0 3px rgba(168,85,247,.2); }
+
+        .btn {
+            border: 1px solid rgba(255,255,255,.24);
+            border-radius: 12px;
+            padding: 11px 14px;
+            font-size: .88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform .18s ease, filter .2s ease, opacity .2s ease;
+            color: #fff;
+            background: rgba(255,255,255,.06);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-body);
+        }
+
+        .btn:active { transform: translateY(1px); }
+        .btn:disabled { opacity: .6; cursor: not-allowed; }
+
+        .btn-primary {
+            background: var(--grad);
+            border-color: rgba(216,180,255,.55);
+            box-shadow: 0 9px 24px rgba(124,58,237,.45);
+        }
+
+        .btn-block {
+            width: 100%;
+            margin-top: 6px;
         }
 
         .turnstile-wrap {
             display: flex;
             justify-content: center;
-            margin: 22px 0;
-            min-height: 65px
+            margin: 16px 0 6px;
+            min-height: 64px;
         }
 
-        .submit {
-            width: 100%;
-            background: var(--accent);
-            color: #fff;
-            font-weight: 700;
-            font-size: 15px;
-            border: none;
-            border-radius: 12px;
-            padding: 14px;
-            cursor: pointer;
-            font-family: inherit;
-            box-shadow: 0 8px 24px -8px var(--accent-glow);
-            transition: background .15s,transform .12s,opacity .15s
-        }
-
-            .submit:hover {
-                background: var(--accent-2)
-            }
-
-            .submit:active {
-                transform: translateY(1px)
-            }
-
-            .submit:disabled {
-                opacity: .55;
-                cursor: not-allowed
-            }
-
-        .foot {
+        .auth-foot {
             text-align: center;
-            color: var(--muted);
-            font-size: 14px;
-            margin-top: 22px
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(168,85,247,.14);
+            font-size: .84rem;
+            color: var(--page-muted);
         }
 
-            .foot a {
-                color: var(--accent-2);
-                font-weight: 600
-            }
+        .auth-foot a { color: #d0b6ff; font-weight: 500; }
+        .auth-foot a:hover { text-decoration: underline; }
 
-                .foot a:hover {
-                    text-decoration: underline
-                }
-
-        @media(max-width:480px) {
-            .card {
-                padding: 32px 24px 28px
-            }
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: .78rem;
+            color: #8c839f;
         }
 
-        @media(prefers-reduced-motion:reduce) {
-            * {
-                transition: none !important
-            }
-        }
+        .back:hover { color: var(--page-muted); }
     </style>
 </head>
 <body>
+<div class="glass auth-card">
+    <img class="watermark wm" src="/mounrlogomain.png" alt="" />
+    <span class="spark" style="top:16px;left:20px">✦</span>
+    <span class="spark" style="bottom:18px;right:26px;animation-delay:1.4s">✧</span>
 
-    <div class="card">
-        <div class="logo">mourn<span class="accent">.wtf</span></div>
-
-        <div class="head">
-            <h1>Welcome back</h1>
-            <p>Log in to your account</p>
-        </div>
-
-        <form id="loginForm" novalidate>
-            <div class="field">
-                <label for="identifier">Username or Email</label>
-                <input type="text" id="identifier" name="identifier" placeholder="johndoe" autocomplete="username" required />
-            </div>
-
-            <div class="field">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
-            </div>
-
-            <div class="form-msg" id="formMsg"></div>
-
-            <!-- Auto-render: the class + data-sitekey is all Turnstile needs. -->
-            <div class="turnstile-wrap">
-                <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-theme="dark"></div>
-            </div>
-
-            <button type="submit" class="submit" id="submitBtn">Log in</button>
-        </form>
-
-        <div class="foot">Don't have an account? <a href="/signup">Sign up</a></div>
+    <div class="auth-head">
+        <a class="logo" href="/">
+            <img src="/mounrlogomain.png" alt="" />
+            <span class="wordmark">mourn<span class="tld">.wtf</span></span>
+        </a>
+        <h1 id="title">Welcome back</h1>
+        <p id="subtitle">Log in to your account and continue your journey.</p>
     </div>
 
-    <script>
-        const form = document.getElementById('loginForm');
-        const submitBtn = document.getElementById('submitBtn');
-        const formMsg = document.getElementById('formMsg');
+    <div class="banner" id="banner" role="alert" aria-live="polite"></div>
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            formMsg.textContent = '';
+    <form id="form" autocomplete="off" novalidate>
+        <div class="field">
+            <label for="identifier">Username or Email</label>
+            <input class="input" id="identifier" type="text" placeholder="johndoe" autocomplete="username" required />
+        </div>
 
-            const identifier = document.getElementById('identifier').value.trim();
-            const password = document.getElementById('password').value;
+        <div class="field">
+            <label for="password">Password</label>
+            <input class="input" id="password" type="password" placeholder="........" autocomplete="current-password" minlength="8" required />
+        </div>
 
-            if (!identifier || !password) {
-                formMsg.textContent = 'Please fill in both fields.';
-                return;
-            }
+        <div class="turnstile-wrap">
+            <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-theme="dark" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired"></div>
+        </div>
 
-            // Read the token straight from the widget at click time.
-            const turnstileToken = (window.turnstile && window.turnstile.getResponse)
-                ? window.turnstile.getResponse()
-                : '';
+        <button class="btn btn-primary btn-block" type="submit" id="submitBtn">Log In</button>
+    </form>
 
-            if (!turnstileToken) {
-                formMsg.textContent = 'Please wait for the verification to finish, then try again.';
-                return;
-            }
+    <div class="auth-foot" id="foot">Don't have a page? <a href="/signup">Sign Up</a></div>
+</div>
+<a class="back" href="/">&larr; Back to mourn.wtf</a>
 
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Logging in…';
+<script>
+    const isLocalhost = ["localhost", "127.0.0.1"].includes(location.hostname);
+    const isDevHost = isLocalhost || /(?:^|\.)ngrok-free\.app$/i.test(location.hostname) || /(?:^|\.)ngrok\.app$/i.test(location.hostname);
+    const el = (id) => document.getElementById(id);
+    const banner = el("banner");
+    const submitBtn = el("submitBtn");
+    let turnstileToken = null;
 
-            try {
-                const res = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ identifier, password, turnstileToken }),
-                });
-                const result = await res.json().catch(() => ({}));
+    function showBanner(msg, tone) {
+        banner.textContent = msg || "";
+        banner.className = "banner" + (msg ? " show" : "") + (tone === "info" ? " info" : "");
+    }
 
-                if (res.ok) {
-                    window.location.href = '/dashboard';
-                } else {
-                    formMsg.textContent = result.error || 'Login failed.';
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Log in';
-                    if (window.turnstile) window.turnstile.reset();
+    function loadJson(key, fallback) {
+        try { return JSON.parse(localStorage.getItem(key) || fallback); }
+        catch { return JSON.parse(fallback); }
+    }
+
+    function currentTurnstileToken() {
+        if (isDevHost) return "local-dev-bypass";
+        if (turnstileToken) return turnstileToken;
+        if (window.turnstile && typeof window.turnstile.getResponse === "function") {
+            return window.turnstile.getResponse() || "";
+        }
+        return "";
+    }
+
+    function resetSubmit() {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Log In";
+    }
+
+    if (isDevHost) {
+        turnstileToken = "local-dev-bypass";
+        const wrap = document.querySelector(".turnstile-wrap");
+        if (wrap) wrap.style.display = "none";
+    }
+
+    window.onTurnstileSuccess = function (token) {
+        turnstileToken = token;
+    };
+
+    window.onTurnstileExpired = function () {
+        turnstileToken = null;
+    };
+
+    el("form").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        showBanner("");
+
+        const identifier = el("identifier").value.trim();
+        const password = el("password").value;
+
+        if (!identifier) {
+            showBanner("Please enter your username or email.");
+            return;
+        }
+        if (!password || password.length < 8) {
+            showBanner("Password must be at least 8 characters.");
+            return;
+        }
+
+        const token = currentTurnstileToken();
+        if (!isDevHost && !token) {
+            showBanner("Complete verification first.");
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Logging In...";
+
+        try {
+            if (isDevHost) {
+                let usedLocalFallback = false;
+                try {
+                    const localApiRes = await fetch("/api/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ identifier, password, turnstileToken: token })
+                    });
+                    const localApiData = await localApiRes.json().catch(function () { return {}; });
+                    if (localApiRes.ok) {
+                        location.href = "/dashboard";
+                        return;
+                    }
+                    // Show expected auth/input errors from API directly.
+                    // For unavailable/misconfigured local API, continue to local fallback.
+                    if (localApiRes.status === 401 || localApiRes.status === 400) {
+                        showBanner(localApiData.error || "Login failed.");
+                        resetSubmit();
+                        return;
+                    }
+                } catch {
+                    // Fall back to localStorage dev auth when API is not running.
                 }
-            } catch (err) {
-                formMsg.textContent = 'Network error. Please try again.';
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Log in';
-                if (window.turnstile) window.turnstile.reset();
-            }
-        });
-    </script>
 
+                usedLocalFallback = true;
+
+                const users = loadJson("mourn.users", "[]");
+                const user = users.find(u =>
+                    ((u.username || "").toLowerCase() === identifier.toLowerCase() ||
+                     (u.email || "").toLowerCase() === identifier.toLowerCase()) &&
+                    (u.password || "") === password
+                );
+
+                if (!user) {
+                    showBanner(
+                        usedLocalFallback
+                            ? "Local fallback mode is active (API unavailable). Invalid username/email or password."
+                            : "Invalid username/email or password.",
+                        usedLocalFallback ? "info" : undefined
+                    );
+                    resetSubmit();
+                    return;
+                }
+
+                localStorage.setItem("mourn.session", JSON.stringify({
+                    username: user.username,
+                    email: user.email,
+                    createdAt: user.createdAt || new Date().toISOString()
+                }));
+
+                location.href = "/dashboard";
+                return;
+            }
+
+            const res = await fetch("/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ identifier, password, turnstileToken: token })
+            });
+
+            const result = await res.json().catch(function () { return {}; });
+            if (res.ok) {
+                location.href = "/dashboard";
+            } else {
+                showBanner(result.error || "Login failed.");
+                resetSubmit();
+                if (window.turnstile && typeof window.turnstile.reset === "function") {
+                    window.turnstile.reset();
+                }
+            }
+        } catch {
+            showBanner("Network error, try again.");
+            resetSubmit();
+            if (window.turnstile && typeof window.turnstile.reset === "function") {
+                window.turnstile.reset();
+            }
+        }
+    });
+</script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"e358b1944e8744e99a854dac743b2ad7","r":1}' crossorigin="anonymous"></script>
 </body>
 </html>

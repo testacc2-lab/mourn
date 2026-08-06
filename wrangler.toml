@@ -1,5 +1,11 @@
 name = "mourn"
 compatibility_date = "2026-08-04"
+main = "src/worker.js"
 
 [assets]
 directory = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "mourn-db"
+database_id = "REPLACE_WITH_REAL_D1_DATABASE_ID"

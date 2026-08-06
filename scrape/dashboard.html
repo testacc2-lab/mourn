@@ -1158,7 +1158,7 @@
         function publicProfileUrl(username) {
             const slug = encodeURIComponent(username || '');
             return (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-                ? location.origin + '/' + slug
+                ? location.origin + '/profile/?u=' + slug
                 : 'https://mourn.wtf/' + slug;
         }
         function hydrate() {

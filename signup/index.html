@@ -1,357 +1,557 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create Account — mourn.wtf</title>
-    <link rel="icon" href="/mourn.png" type="image/png" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>mourn.wtf - Sign Up</title>
+    <link rel="icon" href="/mounrlogomain.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-    <!-- Cloudflare Turnstile -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <style>
         :root {
-            --bg: #08070c;
-            --card: #0f0d16;
-            --field: #0b0a11;
-            --border: rgba(255,255,255,.07);
-            --border-strong: rgba(255,255,255,.12);
-            --text: #f4f2f8;
-            --muted: #9a95a8;
-            --muted-2: #726d80;
-            --accent: #8b5cf6;
-            --accent-2: #a78bfa;
-            --accent-glow: rgba(139,92,246,.35);
+            --font-display: "Outfit", "Inter", system-ui, sans-serif;
+            --font-body: "Inter", system-ui, sans-serif;
+            --page-muted: #a39ab7;
+            --page-text: #f6f3ff;
+            --purple: #a855f7;
+            --violet: #c084fc;
             --danger: #f87171;
+            --ok: #4ade80;
+            --grad: linear-gradient(135deg, #7c3aed, #a855f7 55%, #d946ef);
+            --glow: 0 0 26px rgba(168, 85, 247, 0.26);
+            --glass: linear-gradient(180deg, rgba(18,13,29,.86), rgba(10,8,18,.8));
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Inter',system-ui,-apple-system,sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
+            font-family: var(--font-body);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 32px 20px;
+            color: var(--page-text);
+            background:
+                radial-gradient(64% 58% at 50% -12%, rgba(205,156,255,.30), transparent 66%),
+                radial-gradient(42% 42% at 14% 20%, rgba(168,112,251,.14), transparent 72%),
+                linear-gradient(180deg, #2c1c3f 0%, #1e1630 50%, #120d1b 100%);
         }
 
-            body::before {
-                content: "";
-                position: fixed;
-                inset: 0;
-                z-index: -1;
-                pointer-events: none;
-                background: radial-gradient(50% 40% at 50% 0%, rgba(139,92,246,.12), transparent 70%), radial-gradient(40% 40% at 50% 100%, rgba(124,58,237,.06), transparent 70%);
-            }
+        a { color: inherit; text-decoration: none; }
 
-        a {
-            color: inherit;
-            text-decoration: none
+        .page.shell {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 44px 20px;
         }
 
-        .card {
-            width: 100%;
-            max-width: 452px;
-            background: var(--card);
-            border: 1px solid var(--border);
+        .glass {
+            background: var(--glass);
+            border: 1px solid rgba(168,85,247,.26);
             border-radius: 20px;
-            padding: 40px 40px 34px;
-            box-shadow: 0 30px 80px -30px rgba(0,0,0,.7);
+            backdrop-filter: blur(16px);
+            box-shadow: var(--glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 430px;
+            padding: 40px 36px 30px;
+        }
+
+        .watermark {
+            position: absolute;
+            opacity: .11;
+            filter: blur(.2px);
+            pointer-events: none;
+        }
+
+        .wm {
+            top: -30px;
+            right: -40px;
+            width: 190px;
+        }
+
+        .spark {
+            position: absolute;
+            color: rgba(215,188,255,.65);
+            font-size: 14px;
+            animation: drift 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translateY(0); opacity: .5; }
+            50% { transform: translateY(-6px); opacity: .9; }
         }
 
         .logo {
-            text-align: center;
-            font-size: 26px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: var(--font-display);
             font-weight: 800;
             letter-spacing: -.02em;
-            margin-bottom: 26px
         }
 
-            .logo .accent {
-                color: var(--accent-2)
-            }
+        .logo img {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
 
-        .head {
+        .wordmark { font-size: 1.12rem; }
+        .wordmark .tld { color: var(--violet); }
+
+        .auth-head {
             text-align: center;
-            margin-bottom: 30px
+            margin-bottom: 26px;
         }
 
-            .head h1 {
-                font-size: 26px;
-                font-weight: 800;
-                letter-spacing: -.02em
-            }
+        .auth-head .logo { margin-bottom: 22px; }
 
-            .head p {
-                color: var(--muted);
-                font-size: 15px;
-                margin-top: 6px
-            }
-
-        .field {
-            margin-bottom: 18px
+        .auth-head h1 {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.62rem;
+            letter-spacing: -0.03em;
+            margin-bottom: 8px;
         }
 
-            .field label {
-                display: block;
-                font-size: 13px;
-                font-weight: 600;
-                margin-bottom: 8px
-            }
+        .auth-head p {
+            color: var(--page-muted);
+            font-size: .87rem;
+            line-height: 1.6;
+        }
 
-            .field input {
-                width: 100%;
-                background: var(--field);
-                border: 1px solid var(--border);
-                border-radius: 11px;
-                padding: 13px 15px;
-                color: var(--text);
-                font-size: 15px;
-                font-family: inherit;
-                transition: border-color .15s, box-shadow .15s;
-            }
+        .banner {
+            display: none;
+            border: 1px solid rgba(248,113,113,.35);
+            background: rgba(248,113,113,.14);
+            color: #fecaca;
+            font-size: .82rem;
+            padding: 9px 11px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
 
-                .field input::placeholder {
-                    color: var(--muted-2)
-                }
+        .banner.show { display: block; }
+        .banner.info {
+            border-color: rgba(192,132,252,.35);
+            background: rgba(168,85,247,.14);
+            color: #e9ddff;
+        }
 
-                .field input:focus {
-                    outline: none;
-                    border-color: var(--accent);
-                    box-shadow: 0 0 0 3px rgba(139,92,246,.15)
-                }
+        .field { margin-bottom: 14px; }
 
-                .field input[aria-invalid="true"] {
-                    border-color: var(--danger)
-                }
+        .field label {
+            display: block;
+            font-size: .78rem;
+            color: #d9cff2;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
 
-        .err {
-            color: var(--danger);
-            font-size: 12.5px;
+        .input,
+        .input-prefix {
+            width: 100%;
+            border: 1px solid rgba(168,85,247,.26);
+            border-radius: 12px;
+            background: rgba(12,9,20,.78);
+        }
+
+        .input {
+            color: #fff;
+            padding: 11px 12px;
+            font-size: .9rem;
+            outline: none;
+        }
+
+        .input::placeholder { color: #6f6584; }
+        .input:focus { border-color: rgba(192,132,252,.7); box-shadow: 0 0 0 3px rgba(168,85,247,.2); }
+
+        .input-prefix {
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .input-prefix span {
+            color: #9f94b6;
+            font-size: .82rem;
+            padding: 0 10px;
+            white-space: nowrap;
+        }
+
+        .input-prefix input {
+            flex: 1;
+            min-width: 0;
+            background: none;
+            border: none;
+            color: #fff;
+            padding: 11px 12px 11px 2px;
+            outline: none;
+            font-size: .9rem;
+        }
+
+        .avail {
+            font-size: .74rem;
+            margin-top: 7px;
+            min-height: 16px;
+        }
+
+        .avail.ok { color: var(--ok); }
+        .avail.bad { color: var(--danger); }
+
+        .btn {
+            border: 1px solid rgba(255,255,255,.24);
+            border-radius: 12px;
+            padding: 11px 14px;
+            font-size: .88rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform .18s ease, filter .2s ease, opacity .2s ease;
+            color: #fff;
+            background: rgba(255,255,255,.06);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn:active { transform: translateY(1px); }
+        .btn:disabled { opacity: .6; cursor: not-allowed; }
+
+        .btn-primary {
+            background: var(--grad);
+            border-color: rgba(216,180,255,.55);
+            box-shadow: 0 9px 24px rgba(124,58,237,.45);
+        }
+
+        .btn-block {
+            width: 100%;
             margin-top: 6px;
-            display: none
         }
-
-            .err.show {
-                display: block
-            }
 
         .turnstile-wrap {
             display: flex;
             justify-content: center;
-            margin: 22px 0
+            margin: 16px 0 6px;
+            min-height: 64px;
         }
 
-        .submit {
-            width: 100%;
-            background: var(--accent);
-            color: #fff;
-            font-weight: 700;
-            font-size: 15px;
-            border: none;
-            border-radius: 12px;
-            padding: 14px;
-            cursor: pointer;
-            font-family: inherit;
-            box-shadow: 0 8px 24px -8px var(--accent-glow);
-            transition: background .15s,transform .12s,opacity .15s;
-        }
-
-            .submit:hover {
-                background: var(--accent-2)
-            }
-
-            .submit:active {
-                transform: translateY(1px)
-            }
-
-            .submit:disabled {
-                opacity: .55;
-                cursor: not-allowed
-            }
-
-        .foot {
+        .auth-foot {
             text-align: center;
-            color: var(--muted);
-            font-size: 14px;
-            margin-top: 22px
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(168,85,247,.14);
+            font-size: .84rem;
+            color: var(--page-muted);
         }
 
-            .foot a {
-                color: var(--accent-2);
-                font-weight: 600
-            }
+        .auth-foot a { color: #d0b6ff; font-weight: 500; }
+        .auth-foot a:hover { text-decoration: underline; }
 
-                .foot a:hover {
-                    text-decoration: underline
-                }
-
-        @media(max-width:480px) {
-            .card {
-                padding: 32px 24px 28px
-            }
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: .78rem;
+            color: #8c839f;
         }
 
-        @media(prefers-reduced-motion:reduce) {
-            * {
-                transition: none !important
-            }
-        }
+        .back:hover { color: var(--page-muted); }
     </style>
 </head>
 <body>
+<div class="page shell">
+    <div class="glass auth-card">
+        <img class="watermark wm" src="/mounrlogomain.png" alt="" />
+        <span class="spark" style="top:16px;left:20px">✦</span>
+        <span class="spark" style="bottom:18px;right:26px;animation-delay:1.4s">✧</span>
 
-    <div class="card">
-        <div class="logo">mourn<span class="accent">.wtf</span></div>
-
-        <div class="head">
-            <h1>Create Account</h1>
-            <p>Fill in your information to get started</p>
+        <div class="auth-head">
+            <a class="logo" href="/">
+                <img src="/mounrlogomain.png" alt="" />
+                <span class="wordmark">mourn<span class="tld">.wtf</span></span>
+            </a>
+            <h1 id="title">Claim your username</h1>
+            <p id="subtitle">Pick a name. It is yours forever, or until you get bored.</p>
         </div>
 
-        <form id="signupForm" novalidate>
-            <div class="field">
+        <div class="banner" id="banner"></div>
+
+        <form id="form" autocomplete="off">
+            <div class="field" id="usernameField">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="johndoe" autocomplete="username" required />
-                <div class="err" id="err-username">Username must be 3–20 characters (letters, numbers, _).</div>
+                <div class="input-prefix">
+                    <span>mourn.wtf/</span>
+                    <input id="username" type="text" placeholder="yourname" maxlength="20" spellcheck="false" />
+                </div>
+                <div class="avail" id="avail"></div>
             </div>
 
-            <div class="field">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required />
-                <div class="err" id="err-email">Enter a valid email address.</div>
+            <div class="field" id="emailField">
+                <label for="email">Email</label>
+                <input class="input" id="email" type="email" placeholder="you@example.com" autocomplete="email" />
             </div>
 
             <div class="field">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="new-password" required />
-                <div class="err" id="err-password">Password must be at least 8 characters.</div>
+                <input class="input" id="password" type="password" placeholder="........" autocomplete="new-password" />
             </div>
 
-            <div class="field">
-                <label for="confirm">Confirm Password</label>
-                <input type="password" id="confirm" name="confirm" placeholder="••••••••" autocomplete="new-password" required />
-                <div class="err" id="err-confirm">Passwords do not match.</div>
-            </div>
-
-            <!-- Cloudflare Turnstile widget. Replace data-sitekey with your real site key. -->
             <div class="turnstile-wrap">
-                <div class="cf-turnstile"
-                     data-sitekey="1x00000000000000000000AA"
-                     data-theme="dark"
-                     data-callback="onTurnstileSuccess"
-                     data-expired-callback="onTurnstileExpired"></div>
+                <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-theme="dark" data-callback="onTurnstileSuccess" data-expired-callback="onTurnstileExpired"></div>
             </div>
 
-            <button type="submit" class="submit" id="submitBtn" disabled>Continue to Verification</button>
+            <button class="btn btn-primary btn-block" type="submit" id="submitBtn">Create My Page</button>
         </form>
 
-        <div class="foot">Already have an account? <a href="/login">Log in</a></div>
+        <div class="auth-foot" id="foot">Already have a page? <a href="/login">Log In</a></div>
     </div>
+</div>
+<a class="back" href="/">&larr; Back to mourn.wtf</a>
 
-    <script>
-        const form = document.getElementById('signupForm');
-        const submitBtn = document.getElementById('submitBtn');
-        let turnstileToken = null;
+<script>
+    const params = new URLSearchParams(location.search || "");
+    const isLocalhost = ["localhost", "127.0.0.1"].includes(location.hostname);
+    const isDevHost = isLocalhost || /(?:^|\.)ngrok-free\.app$/i.test(location.hostname) || /(?:^|\.)ngrok\.app$/i.test(location.hostname);
+    const el = (id) => document.getElementById(id);
+    const banner = el("banner");
+    const submitBtn = el("submitBtn");
+    const avail = el("avail");
+    let turnstileToken = null;
 
-        // Turnstile callbacks (referenced by data-callback attributes)
-        window.onTurnstileSuccess = (token) => {
-            turnstileToken = token;
-            submitBtn.disabled = false;
+    function loadJson(key, fallback) {
+        try { return JSON.parse(localStorage.getItem(key) || fallback); }
+        catch { return JSON.parse(fallback); }
+    }
+
+    function showBanner(msg, tone) {
+        banner.textContent = msg || "";
+        banner.className = "banner" + (msg ? " show" : "") + (tone === "info" ? " info" : "");
+    }
+
+    function debounce(fn, wait) {
+        let t;
+        return function () {
+            const args = arguments;
+            clearTimeout(t);
+            t = setTimeout(function () { fn.apply(null, args); }, wait);
         };
-        window.onTurnstileExpired = () => {
-            turnstileToken = null;
-            submitBtn.disabled = true;
-        };
+    }
 
-        const showErr = (id, show) => {
-            document.getElementById('err-' + id).classList.toggle('show', show);
-            document.getElementById(id).setAttribute('aria-invalid', show ? 'true' : 'false');
-        };
+    function normalizeUsername(v) {
+        return String(v || "").toLowerCase().replace(/[^a-z0-9_.]/g, "").slice(0, 20);
+    }
 
-        const validators = {
-            username: v => /^[a-zA-Z0-9_]{3,20}$/.test(v),
-            email: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v),
-            password: v => v.length >= 8,
-            confirm: v => v === document.getElementById('password').value && v.length > 0,
-        };
+    function isValidUsername(v) {
+        return /^[a-z0-9_.]{2,20}$/.test(v);
+    }
 
-        // live-clear errors as the user types
-        ['username', 'email', 'password', 'confirm'].forEach(id => {
-            document.getElementById(id).addEventListener('input', () => showErr(id, false));
-        });
+    async function checkName(v) {
+        if (!v) {
+            avail.textContent = "";
+            avail.className = "avail";
+            return;
+        }
+        if (!isValidUsername(v)) {
+            avail.className = "avail bad";
+            avail.textContent = "Only a-z, 0-9, _ and . (2-20)";
+            return;
+        }
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const data = {
-                username: document.getElementById('username').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                password: document.getElementById('password').value,
-                confirm: document.getElementById('confirm').value,
-            };
-
-            let ok = true;
-            for (const field of ['username', 'email', 'password', 'confirm']) {
-                const valid = validators[field](data[field]);
-                showErr(field, !valid);
-                if (!valid) ok = false;
+        if (isDevHost) {
+            try {
+                const probe = await fetch("/api/check?username=" + encodeURIComponent(v));
+                if (probe.ok) {
+                    const data = await probe.json().catch(function () { return {}; });
+                    const ok = !!(data && data.available);
+                    avail.className = "avail " + (ok ? "ok" : "bad");
+                    avail.textContent = ok ? "Available!" : (data && data.reason === "reserved" ? "Reserved - pick another" : "Taken");
+                    return;
+                }
+            } catch {
+                // Fall back to local-only availability checks when API is unavailable.
             }
-            if (!ok) return;
 
-            if (!turnstileToken) {
-                alert('Please complete the verification challenge.');
+            const users = loadJson("mourn.users", "[]");
+            const exists = users.some(function (u) {
+                return String(u.username || "").toLowerCase() === v;
+            });
+            avail.className = "avail " + (exists ? "bad" : "ok");
+            avail.textContent = exists ? "Taken" : "Available!";
+            return;
+        }
+
+        try {
+            const res = await fetch("/api/check?username=" + encodeURIComponent(v));
+            const data = await res.json();
+            const ok = !!(data && data.available);
+            avail.className = "avail " + (ok ? "ok" : "bad");
+            avail.textContent = ok ? "Available!" : (data && data.reason === "reserved" ? "Reserved - pick another" : "Taken");
+        } catch {
+            avail.textContent = "";
+            avail.className = "avail";
+        }
+    }
+
+    const checkNameDebounced = debounce(function () {
+        checkName(el("username").value.trim());
+    }, 280);
+
+    el("username").addEventListener("input", function (e) {
+        e.target.value = normalizeUsername(e.target.value);
+        checkNameDebounced();
+    });
+
+    if (params.get("u")) {
+        el("username").value = normalizeUsername(params.get("u"));
+        checkNameDebounced();
+    }
+
+    if (isDevHost) {
+        turnstileToken = "local-dev-bypass";
+        const wrap = document.querySelector(".turnstile-wrap");
+        if (wrap) wrap.style.display = "none";
+    }
+
+    window.onTurnstileSuccess = function (token) {
+        turnstileToken = token;
+    };
+
+    window.onTurnstileExpired = function () {
+        turnstileToken = null;
+    };
+
+    el("form").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        showBanner("");
+
+        const username = normalizeUsername(el("username").value.trim());
+        const email = el("email").value.trim();
+        const password = el("password").value;
+
+        if (!isValidUsername(username)) {
+            showBanner("Username must be 2-20 chars: a-z 0-9 _ .");
+            return;
+        }
+        if (!/^\S+@\S+\.\S+$/.test(email)) {
+            showBanner("Enter a valid email");
+            return;
+        }
+        if ((password || "").length < 8) {
+            showBanner("Password must be at least 8 characters");
+            return;
+        }
+        if (!isDevHost && !turnstileToken) {
+            showBanner("Complete verification first");
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Creating...";
+
+        try {
+            if (isDevHost) {
+                let usedLocalFallback = false;
+                try {
+                    const apiRes = await fetch("/api/signup", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ username, email, password, turnstileToken })
+                    });
+                    const apiResult = await apiRes.json().catch(function () { return {}; });
+                    if (apiRes.ok) {
+                        location.href = "/login";
+                        return;
+                    }
+                    // For expected validation conflicts, show API error directly.
+                    // For unavailable/misconfigured local API, continue to local fallback.
+                    if (apiRes.status === 409 || apiRes.status === 400) {
+                        showBanner(apiResult.error || "Could not create account");
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = "Create My Page";
+                        return;
+                    }
+                } catch {
+                    // Fall back to local-only signup when API is unavailable.
+                }
+
+                usedLocalFallback = true;
+
+                const users = loadJson("mourn.users", "[]");
+                const profiles = loadJson("mourn.profiles", "{}");
+                const duplicate = users.some(function (u) {
+                    return String(u.username || "").toLowerCase() === username || String(u.email || "").toLowerCase() === email.toLowerCase();
+                });
+                if (duplicate) {
+                    showBanner(
+                        usedLocalFallback
+                            ? "Local fallback mode is active (API unavailable). Username or email already exists."
+                            : "Username or email already exists",
+                        usedLocalFallback ? "info" : undefined
+                    );
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = "Create My Page";
+                    return;
+                }
+
+                const createdAt = new Date().toISOString();
+                users.push({ username, email, password, createdAt });
+                localStorage.setItem("mourn.users", JSON.stringify(users));
+
+                if (!profiles[username]) {
+                    profiles[username] = {
+                        layout: "scroll",
+                        displayName: username,
+                        bio: "",
+                        location: "",
+                        background: "",
+                        avatar: "",
+                        cursor: "",
+                        colors: { accent: "#8b5cf6" },
+                        song: { title: "", artist: "", art: "", url: "" },
+                        platforms: [],
+                        projects: [],
+                        contacts: [],
+                        views: 0
+                    };
+                    localStorage.setItem("mourn.profiles", JSON.stringify(profiles));
+                }
+
+                localStorage.setItem("mourn.session", JSON.stringify({ username, email, createdAt }));
+                location.href = "/dashboard";
                 return;
             }
 
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Creating account…';
+            const res = await fetch("/api/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, email, password, turnstileToken })
+            });
 
-            try {
-                // POST to your Cloudflare Worker. The Worker verifies the Turnstile token,
-                // enforces the 2-accounts-per-IP limit, creates the profile, and (later) sends
-                // the verification email.
-                const res = await fetch('/api/signup', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        username: data.username,
-                        email: data.email,
-                        password: data.password,
-                        turnstileToken,               // Worker re-verifies this server-side
-                    }),
-                });
-
-                const result = await res.json().catch(() => ({}));
-
-                if (res.ok) {
-                    // e.g. redirect to a "check your email" page once email verification exists
-                    window.location.href = '/login';
-                } else {
-                    alert(result.error || 'Something went wrong. Please try again.');
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Continue to Verification';
-                    if (window.turnstile) window.turnstile.reset();
-                    turnstileToken = null;
-                }
-            } catch (err) {
-                alert('Network error. Please try again.');
+            const result = await res.json().catch(function () { return {}; });
+            if (res.ok) {
+                location.href = "/login";
+            } else {
+                showBanner(result.error || "Could not create account");
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Continue to Verification';
+                submitBtn.textContent = "Create My Page";
+                if (window.turnstile) window.turnstile.reset();
             }
-        });
-    </script>
-
+        } catch {
+            showBanner("Network error, try again");
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Create My Page";
+            if (window.turnstile) window.turnstile.reset();
+        }
+    });
+</script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"e358b1944e8744e99a854dac743b2ad7","r":1}' crossorigin="anonymous"></script>
 </body>
 </html>
