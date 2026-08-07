@@ -40,5 +40,10 @@ self.addEventListener('fetch', (event) => {
   const slug = parts[0].toLowerCase();
   if (RESERVED.has(slug)) return;
 
-  event.respondWith(fetch('/profile/'));
+  const profileUrl = new URL('/profile/', self.location.origin);
+  profileUrl.searchParams.set('u', parts[0]);
+
+  event.respondWith(
+    fetch(profileUrl.toString(), { credentials: 'same-origin' }).catch(() => fetch(req))
+  );
 });

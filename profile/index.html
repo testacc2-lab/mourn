@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>profile - mourn.wtf</title>
+    
+    <link rel="stylesheet" href="/src/mobile.css" />
+<title>profile - mourn.wtf</title>
     <link rel="icon" href="/mounrlogomain.png" type="image/png" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
     <style>
@@ -662,108 +664,126 @@
         const handle = getPathHandle();
         const profiles = loadJson('mourn.profiles', '{}');
         const hasLocalProfile = !!profiles[handle];
-        let stored = profiles[handle] || {};
-        let usedApiProfile = false;
-        let missingFromApi = false;
+        const localProfile = profiles[handle] || {};
 
-        try {
-            const xhr = new XMLHttpRequest();
-            xhr.open('GET', '/api/public-profile?u=' + encodeURIComponent(handle), false);
-            xhr.send();
-            if (xhr.status >= 200 && xhr.status < 300) {
-                const payload = JSON.parse(xhr.responseText || '{}');
-                if (payload && payload.profile && typeof payload.profile === 'object') {
-                    stored = payload.profile;
-                    usedApiProfile = true;
+        function applyProfile(source, isUnclaimedProfile) {
+            const stored = source || {};
+            window.PROFILE = {
+                handle,
+                layout: stored.layout || 'scroll',
+                displayName: stored.displayName || handle,
+                bio: stored.bio || '',
+                statusText: stored.statusText || '',
+                nameTooltip: stored.nameTooltip || '',
+                entrySymbol: stored.entrySymbol || '✦',
+                background: stored.background || '',
+                avatar: stored.avatar || '',
+                cursor: stored.cursor || '',
+                location: stored.location || '',
+                colors: {
+                    accent: stored.colors?.accent || '#8b5cf6',
+                    text: stored.colors?.text || '#f4f2f8',
+                    icon: stored.colors?.icon || '#f4f2f8',
+                    bg: stored.colors?.bg || '#08070c',
+                    bgFx: stored.colors?.bgFx || '#8b5cf6',
+                    primary: stored.colors?.primary || '#171717',
+                    secondary: stored.colors?.secondary || '#000000',
+                    useGradient: !!stored.colors?.useGradient,
+                },
+                ui: {
+                    opacity: typeof stored.ui?.opacity === 'number' ? stored.ui.opacity : 78,
+                    blur: typeof stored.ui?.blur === 'number' ? stored.ui.blur : 20,
+                    bgEffect: stored.ui?.bgEffect || 'none',
+                    usernameEffect: stored.ui?.usernameEffect || 'none',
+                    discordPresence: !!stored.ui?.discordPresence,
+                    locVisible: stored.ui?.locVisible !== false,
+                    glowUsername: stored.ui?.glowUsername !== false,
+                    glowSocials: stored.ui?.glowSocials !== false,
+                    glowBadges: !!stored.ui?.glowBadges,
+                    monoIcons: !!stored.ui?.monoIcons,
+                    animatedTitle: !!stored.ui?.animatedTitle,
+                    swapBoxColors: !!stored.ui?.swapBoxColors,
+                    cardTilt: typeof stored.ui?.cardTilt === 'number' ? stored.ui.cardTilt : 10,
+                    fxDensity: typeof stored.ui?.fxDensity === 'number' ? stored.ui.fxDensity : 100,
+                    socialIconSize: typeof stored.ui?.socialIconSize === 'number' ? stored.ui.socialIconSize : 23,
+                    iconGlowStrength: typeof stored.ui?.iconGlowStrength === 'number' ? stored.ui.iconGlowStrength : 65,
+                    badgeGlowStrength: typeof stored.ui?.badgeGlowStrength === 'number' ? stored.ui.badgeGlowStrength : 60,
+                    iconShape: ['round', 'circle', 'square'].includes(stored.ui?.iconShape) ? stored.ui.iconShape : 'round',
+                    iconHoverFx: ['lift', 'pulse', 'spin', 'none'].includes(stored.ui?.iconHoverFx) ? stored.ui.iconHoverFx : 'lift',
+                    statusTypewriter: !!stored.ui?.statusTypewriter,
+                    nameNoise: !!stored.ui?.nameNoise,
+                    cursorSparkle: stored.ui?.cursorSparkle !== false,
+                    entryGate: stored.ui?.entryGate !== false,
+                    volumeControl: stored.ui?.volumeControl !== false,
+                    useDiscordAvatar: !!stored.ui?.useDiscordAvatar,
+                    discordDecoration: !!stored.ui?.discordDecoration,
+                },
+                views: typeof stored.views === 'number' ? stored.views : 0,
+                song: stored.song || { title: '', artist: '', art: '', url: '' },
+                platforms: Array.isArray(stored.platforms) ? stored.platforms : [],
+                badges: [],
+                projects: (Array.isArray(stored.projects) && stored.projects.length) ? stored.projects : (Array.isArray(stored.links) ? stored.links : []),
+                links: (Array.isArray(stored.links) && stored.links.length) ? stored.links : (Array.isArray(stored.projects) ? stored.projects : []),
+                contacts: Array.isArray(stored.contacts) ? stored.contacts : [],
+                isUnclaimedProfile: !!isUnclaimedProfile,
+            };
+        }
+
+        applyProfile(localProfile, !hasLocalProfile);
+
+        window.PROFILE_READY = (async function () {
+            let stored = localProfile;
+            let usedApiProfile = false;
+            let missingFromApi = false;
+
+            try {
+                const controller = new AbortController();
+                const timeout = setTimeout(function () { controller.abort(); }, 1200);
+                const res = await fetch('/api/public-profile?u=' + encodeURIComponent(handle), {
+                    signal: controller.signal,
+                    cache: 'no-store'
+                });
+                clearTimeout(timeout);
+
+                if (res.ok) {
+                    const payload = await res.json().catch(function () { return {}; });
+                    if (payload && payload.profile && typeof payload.profile === 'object') {
+                        stored = payload.profile;
+                        usedApiProfile = true;
+                    }
+                } else if (res.status === 404) {
+                    missingFromApi = true;
                 }
-            } else if (xhr.status === 404) {
-                missingFromApi = true;
+            } catch (_) {
+                // Keep local fallback profile shape if API is unavailable.
             }
-        } catch (_) {
-            // Keep local fallback profile shape if API is unavailable.
-        }
 
-        const isUnclaimedProfile = missingFromApi || (!usedApiProfile && !hasLocalProfile);
+            const isUnclaimedProfile = missingFromApi || (!usedApiProfile && !hasLocalProfile);
+            applyProfile(stored, isUnclaimedProfile);
 
-        window.PROFILE = {
-            handle,
-            layout: stored.layout || 'scroll',
-            displayName: stored.displayName || handle,
-            bio: stored.bio || '',
-            statusText: stored.statusText || '',
-            nameTooltip: stored.nameTooltip || '',
-            entrySymbol: stored.entrySymbol || '✦',
-            background: stored.background || '',
-            avatar: stored.avatar || '',
-            cursor: stored.cursor || '',
-            location: stored.location || '',
-            colors: {
-                accent: stored.colors?.accent || '#8b5cf6',
-                text: stored.colors?.text || '#f4f2f8',
-                icon: stored.colors?.icon || '#f4f2f8',
-                bg: stored.colors?.bg || '#08070c',
-                bgFx: stored.colors?.bgFx || '#8b5cf6',
-                primary: stored.colors?.primary || '#171717',
-                secondary: stored.colors?.secondary || '#000000',
-                useGradient: !!stored.colors?.useGradient,
-            },
-            ui: {
-                opacity: typeof stored.ui?.opacity === 'number' ? stored.ui.opacity : 78,
-                blur: typeof stored.ui?.blur === 'number' ? stored.ui.blur : 20,
-                bgEffect: stored.ui?.bgEffect || 'none',
-                usernameEffect: stored.ui?.usernameEffect || 'none',
-                discordPresence: !!stored.ui?.discordPresence,
-                locVisible: stored.ui?.locVisible !== false,
-                glowUsername: stored.ui?.glowUsername !== false,
-                glowSocials: stored.ui?.glowSocials !== false,
-                glowBadges: !!stored.ui?.glowBadges,
-                monoIcons: !!stored.ui?.monoIcons,
-                animatedTitle: !!stored.ui?.animatedTitle,
-                swapBoxColors: !!stored.ui?.swapBoxColors,
-                cardTilt: typeof stored.ui?.cardTilt === 'number' ? stored.ui.cardTilt : 10,
-                fxDensity: typeof stored.ui?.fxDensity === 'number' ? stored.ui.fxDensity : 100,
-                socialIconSize: typeof stored.ui?.socialIconSize === 'number' ? stored.ui.socialIconSize : 23,
-                iconGlowStrength: typeof stored.ui?.iconGlowStrength === 'number' ? stored.ui.iconGlowStrength : 65,
-                badgeGlowStrength: typeof stored.ui?.badgeGlowStrength === 'number' ? stored.ui.badgeGlowStrength : 60,
-                iconShape: ['round', 'circle', 'square'].includes(stored.ui?.iconShape) ? stored.ui.iconShape : 'round',
-                iconHoverFx: ['lift', 'pulse', 'spin', 'none'].includes(stored.ui?.iconHoverFx) ? stored.ui.iconHoverFx : 'lift',
-                statusTypewriter: !!stored.ui?.statusTypewriter,
-                nameNoise: !!stored.ui?.nameNoise,
-                cursorSparkle: stored.ui?.cursorSparkle !== false,
-                entryGate: stored.ui?.entryGate !== false,
-                volumeControl: stored.ui?.volumeControl !== false,
-                useDiscordAvatar: !!stored.ui?.useDiscordAvatar,
-                discordDecoration: !!stored.ui?.discordDecoration,
-            },
-            views: typeof stored.views === 'number' ? stored.views : 0,
-            song: stored.song || { title: '', artist: '', art: '', url: '' },
-            platforms: Array.isArray(stored.platforms) ? stored.platforms : [],
-            badges: [],
-            projects: (Array.isArray(stored.projects) && stored.projects.length) ? stored.projects : (Array.isArray(stored.links) ? stored.links : []),
-            links: (Array.isArray(stored.links) && stored.links.length) ? stored.links : (Array.isArray(stored.projects) ? stored.projects : []),
-            contacts: Array.isArray(stored.contacts) ? stored.contacts : [],
-            isUnclaimedProfile: !!isUnclaimedProfile,
-        };
-
-        if (isLocalhost && !usedApiProfile && profiles[handle]) {
-            // Local dev only: count at most once per 6 hours per browser for this profile.
-            const gateKey = 'mourn.viewGate.' + handle;
-            const now = Date.now();
-            const last = Number(localStorage.getItem(gateKey) || 0);
-            if (!last || now - last >= 6 * 60 * 60 * 1000) {
-                profiles[handle].views = (profiles[handle].views || 0) + 1;
-                localStorage.setItem('mourn.profiles', JSON.stringify(profiles));
-                localStorage.setItem(gateKey, String(now));
-                window.PROFILE.views = profiles[handle].views;
+            if (isLocalhost && !usedApiProfile && profiles[handle]) {
+                // Local dev only: count at most once per 6 hours per browser for this profile.
+                const gateKey = 'mourn.viewGate.' + handle;
+                const now = Date.now();
+                const last = Number(localStorage.getItem(gateKey) || 0);
+                if (!last || now - last >= 6 * 60 * 60 * 1000) {
+                    profiles[handle].views = (profiles[handle].views || 0) + 1;
+                    localStorage.setItem('mourn.profiles', JSON.stringify(profiles));
+                    localStorage.setItem(gateKey, String(now));
+                    window.PROFILE.views = profiles[handle].views;
+                }
             }
-        }
+
+            return window.PROFILE;
+        })();
     </script>
 
     <script>
-        var P = window.PROFILE || {};
+        (window.PROFILE_READY || Promise.resolve(window.PROFILE || {})).then(function (resolvedProfile) {
+        var P = resolvedProfile || window.PROFILE || {};
         var MEDIA_DB = 'mourn.local.media';
         var MEDIA_STORE = 'assets';
-        var BOOT_MIN_MS = 700;
+        var BOOT_MIN_MS = 180;
         var bootStartedAt = Date.now();
 
         function finishBoot() {
@@ -1902,6 +1922,7 @@
             finishBoot();
         }).catch(function () {
             finishBoot();
+        });
         });
     </script>
 

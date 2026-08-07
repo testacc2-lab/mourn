@@ -3,286 +3,275 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Privacy Policy — mourn.wtf</title>
+    <link rel="stylesheet" href="/src/mobile.css" />
+    <title>Privacy Policy - mourn.wtf</title>
     <link rel="icon" href="/mounrlogomain.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
         :root {
-            --bg: #08070c;
-            --bg-2: #0d0b13;
-            --card: #0f0d16;
-            --field: #0b0a11;
-            --border: rgba(255,255,255,.07);
-            --border-strong: rgba(255,255,255,.12);
-            --text: #f4f2f8;
-            --muted: #9a95a8;
-            --muted-2: #726d80;
-            --accent: #8b5cf6;
-            --accent-2: #a78bfa;
-            --accent-glow: rgba(139,92,246,.35);
-            --max: 820px
+            --font-display: "Outfit", "Inter", system-ui, sans-serif;
+            --font-body: "Inter", system-ui, sans-serif;
+            --page-muted: #a39ab7;
+            --page-text: #f6f3ff;
+            --purple: #a855f7;
+            --violet: #c084fc;
+            --grad: linear-gradient(135deg, #7c3aed, #a855f7 55%, #d946ef);
+            --glow: 0 0 26px rgba(168, 85, 247, 0.26);
+            --glow-strong: 0 0 34px rgba(168, 85, 247, 0.45);
+            --glass: linear-gradient(180deg, rgba(21,16,33,.84), rgba(10,8,18,.76));
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0
-        }
-
-        html {
-            scroll-behavior: smooth
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { min-height: 100%; }
 
         body {
-            font-family: 'Inter',system-ui,-apple-system,sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            line-height: 1.65;
-            -webkit-font-smoothing: antialiased;
+            font-family: var(--font-body);
+            color: var(--page-text);
+            background:
+                radial-gradient(60% 50% at 50% -10%, rgba(168,85,247,.32), transparent 68%),
+                radial-gradient(36% 28% at 14% 18%, rgba(124,58,237,.22), transparent 75%),
+                radial-gradient(28% 24% at 86% 20%, rgba(217,70,239,.16), transparent 78%),
+                linear-gradient(180deg, #171028 0%, #0f0b19 48%, #07050c 100%);
+            overflow-x: hidden;
+        }
+
+        a { color: inherit; text-decoration: none; }
+
+        .page {
+            position: relative;
+            isolation: isolate;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column
         }
 
-            body::before {
-                content: "";
-                position: fixed;
-                inset: 0;
-                z-index: -1;
-                pointer-events: none;
-                background: radial-gradient(60% 40% at 50% -5%, rgba(139,92,246,.13), transparent 70%)
-            }
-
-        a {
-            color: inherit;
-            text-decoration: none
+        .page::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background-image: radial-gradient(rgba(255,255,255,.08) 0.7px, transparent 0.7px);
+            background-size: 26px 26px;
+            opacity: .12;
         }
 
-        .wrap {
-            max-width: var(--max);
-            margin: 0 auto;
-            padding: 0 24px;
-            width: 100%
+        .glass {
+            background: var(--glass);
+            border: 1px solid rgba(200,150,255,.22);
+            border-radius: 18px;
+            backdrop-filter: blur(14px);
+            box-shadow: var(--glow);
+        }
+
+        .btn {
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: 12px;
+            padding: 10px 16px;
+            font-size: .88rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            background: rgba(255,255,255,.06);
+            transition: transform .18s ease, filter .2s ease, border-color .2s ease;
+        }
+
+        .btn:hover { filter: brightness(1.08); border-color: rgba(255,255,255,.35); }
+        .btn:active { transform: translateY(1px); }
+
+        .btn-primary {
+            background: var(--grad);
+            border-color: rgba(216,180,255,.55);
+            box-shadow: 0 9px 24px rgba(124,58,237,.45);
         }
 
         nav {
             position: sticky;
             top: 0;
-            z-index: 50;
-            backdrop-filter: blur(12px);
-            background: rgba(8,7,12,.6);
-            border-bottom: 1px solid var(--border)
-        }
-
-        .nav-inner {
-            max-width: 1180px;
-            margin: 0 auto;
-            padding: 0 24px;
+            z-index: 40;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 64px
+            padding: 18px 34px;
+            backdrop-filter: blur(16px);
+            background: linear-gradient(180deg, rgba(0,0,0,.75), rgba(0,0,0,0));
         }
 
-        .brand {
-            display: flex;
+        .logo {
+            display: inline-flex;
             align-items: center;
             gap: 10px;
             font-weight: 800;
-            font-size: 18px;
-            letter-spacing: -.02em
+            font-family: var(--font-display);
+            letter-spacing: -.02em;
         }
 
-            .brand img {
-                width: 28px;
-                height: 28px;
-                border-radius: 8px;
-                object-fit: cover
-            }
+        .logo img {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
 
-        .nav-links {
+        .wordmark { font-size: 1.12rem; }
+        .wordmark .tld { color: var(--violet); }
+
+        .nav-actions {
             display: flex;
             align-items: center;
-            gap: 28px
+            gap: 12px;
         }
 
-            .nav-links a.nlink {
-                color: var(--muted);
-                font-size: 14px;
-                font-weight: 500;
-                transition: color .15s
-            }
+        .login-link {
+            font-size: .9rem;
+            color: var(--page-muted);
+            transition: color .2s;
+        }
 
-                .nav-links a.nlink:hover {
-                    color: var(--text)
-                }
+        .login-link:hover { color: #fff; }
 
-        .btn {
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 54px 24px 90px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .pill-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-weight: 600;
-            font-size: 14px;
-            border-radius: 10px;
-            padding: 9px 16px;
-            cursor: pointer;
-            border: 1px solid var(--border-strong);
-            background: transparent;
-            color: var(--text);
-            transition: background .15s,border-color .15s
+            border-radius: 999px;
+            border: 1px solid rgba(168,85,247,.45);
+            background: rgba(18,13,30,.8);
+            color: #d9c7ff;
+            padding: 7px 14px;
+            font-size: .78rem;
+            letter-spacing: .01em;
+            margin-bottom: 18px;
         }
 
-            .btn:hover {
-                background: var(--field);
-                border-color: rgba(255,255,255,.18)
-            }
+        h1 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: clamp(2rem, 5.8vw, 3.2rem);
+            letter-spacing: -0.04em;
+            margin-bottom: 10px;
+        }
 
-        main {
-            flex: 1
+        .updated {
+            color: var(--page-muted);
+            font-size: .88rem;
         }
 
         .doc {
-            padding: 70px 0 90px
+            padding: 28px 24px;
         }
 
-            .doc h1 {
-                font-size: clamp(30px,5vw,44px);
-                font-weight: 900;
-                letter-spacing: -.03em
-            }
-
-        .updated {
-            color: var(--muted-2);
-            font-size: 14px;
-            margin-top: 10px;
-            margin-bottom: 44px
+        .doc p,
+        .doc li {
+            color: #d4cde3;
+            line-height: 1.72;
+            font-size: .95rem;
         }
+
+        .doc p { margin: 0 0 14px; }
+        .doc ul { margin: 0 0 14px 22px; }
+        .doc li { margin-bottom: 7px; }
 
         .doc h2 {
-            font-size: 20px;
+            margin: 30px 0 10px;
+            font-family: var(--font-display);
             font-weight: 700;
-            letter-spacing: -.01em;
-            margin: 38px 0 12px;
-            color: var(--text)
+            letter-spacing: -.02em;
+            font-size: 1.2rem;
+            color: #f3ecff;
         }
-
-        .doc p {
-            color: var(--muted);
-            font-size: 15.5px;
-            margin-bottom: 14px
-        }
-
-        .doc ul {
-            color: var(--muted);
-            font-size: 15.5px;
-            margin: 0 0 14px 22px
-        }
-
-        .doc li {
-            margin-bottom: 7px
-        }
-
-        .doc a.inline {
-            color: var(--accent-2);
-            font-weight: 500
-        }
-
-            .doc a.inline:hover {
-                text-decoration: underline
-            }
 
         .intro {
-            color: var(--muted);
-            font-size: 16px;
-            margin-bottom: 8px
+            color: #e2d8f5;
+            font-size: .98rem;
+            margin-bottom: 10px;
+        }
+
+        .inline {
+            color: #d8baff;
+            font-weight: 600;
+            text-decoration: underline;
+            text-decoration-color: rgba(216,186,255,.45);
+            text-underline-offset: 2px;
         }
 
         footer {
-            border-top: 1px solid var(--border);
-            background: var(--bg-2);
-            padding: 56px 0 34px;
-            margin-top: 20px
-        }
-
-        .foot-cols {
-            display: grid;
-            grid-template-columns: repeat(3,1fr);
-            gap: 32px;
-            max-width: 820px;
-            margin: 0 auto
-        }
-
-        .foot-col h4 {
-            color: var(--accent-2);
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 16px
-        }
-
-        .foot-col a, .foot-col span {
-            display: block;
-            color: var(--muted);
-            font-size: 14px;
-            margin-bottom: 11px;
-            transition: color .15s
-        }
-
-            .foot-col a:hover {
-                color: var(--text)
-            }
-
-        .copyright {
             text-align: center;
-            color: var(--muted-2);
-            font-size: 14px;
-            margin-top: 48px
+            padding: 30px 24px 48px;
+            color: #7a708d;
+            font-size: .78rem;
+            border-top: 1px solid rgba(168,85,247,.12);
         }
 
-        @media(max-width:640px) {
-            .nav-links {
-                gap: 14px
-            }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin: 0 0 12px;
+        }
 
-                .nav-links a.nlink {
-                    display: none
-                }
+        .footer-links a {
+            color: #b7aeca;
+            font-size: .85rem;
+        }
 
-            .foot-cols {
-                grid-template-columns: 1fr;
-                text-align: center;
-                gap: 28px
-            }
+        .footer-links a:hover {
+            color: #ece6ff;
+        }
+
+        @media (max-width: 640px) {
+            nav { padding: 16px 18px; }
+            .doc { padding: 22px 16px; }
+            .nav-actions { gap: 10px; }
+            .nav-actions .btn { padding: 9px 12px; }
         }
     </style>
 </head>
 <body>
+<div class="page">
     <nav>
-        <div class="nav-inner">
-            <a href="/" class="brand"><img src="/mounrlogomain.png" alt="mourn.wtf" /><span>mourn.wtf</span></a>
-            <div class="nav-links">
-                <a href="/pricing" class="nlink">Pricing</a>
-                <a href="https://discord.gg/hvkK4gn486" class="nlink" target="_blank" rel="noopener">Discord</a>
-                <a href="/login" class="btn" id="authBtn">Login</a>
-            </div>
+        <a class="logo" href="/">
+            <img src="/mounrlogomain.png" alt="mourn.wtf" />
+            <span class="wordmark">mourn<span class="tld">.wtf</span></span>
+        </a>
+        <div class="nav-actions">
+            <a class="login-link" href="/login">Log In</a>
+            <a class="btn btn-primary" href="/signup">Sign Up</a>
         </div>
     </nav>
 
     <main>
-        <div class="wrap doc">
+        <section class="hero">
+            <span class="pill-badge">✦ Legal</span>
             <h1>Privacy Policy</h1>
             <div class="updated">Last updated: July 3, 2026</div>
+        </section>
 
+        <section class="glass doc">
             <p class="intro">This Privacy Policy explains what information mourn.wtf collects, how we use it, and the choices you have. By using the Service, you agree to the practices described here.</p>
 
             <h2>1. Information we collect</h2>
             <p>We aim to collect only what we need to run the Service:</p>
             <ul>
-                <li><strong>Account information</strong> — your username and email address. Your password is never stored in readable form; it is protected with a one-way cryptographic hash (PBKDF2).</li>
-                <li><strong>Content you provide</strong> — your profile details, links, uploaded images, and any music or media you add.</li>
-                <li><strong>Technical data</strong> — limited log data such as your IP address, which we use for security and to enforce per-network account limits.</li>
-                <li><strong>Session data</strong> — a session token stored to keep you logged in (see Cookies below).</li>
+                <li><strong>Account information</strong>: your username and email address. Your password is never stored in readable form; it is protected with a one-way cryptographic hash (PBKDF2).</li>
+                <li><strong>Content you provide</strong>: your profile details, links, uploaded images, and any music or media you add.</li>
+                <li><strong>Technical data</strong>: limited log data such as your IP address, which we use for security and to enforce per-network account limits.</li>
+                <li><strong>Session data</strong>: a session token stored to keep you logged in (see Cookies below).</li>
             </ul>
 
             <h2>2. How we use your information</h2>
@@ -293,14 +282,14 @@
                 <li>To respond to support requests and communicate about your account.</li>
             </ul>
 
-            <h2>3. Cookies &amp; sessions</h2>
+            <h2>3. Cookies and sessions</h2>
             <p>When you log in, we set a secure, HttpOnly session cookie so the Service can recognize you on future requests. This cookie is essential for logging in and cannot be read by client-side scripts. We do not use advertising cookies.</p>
 
             <h2>4. Third-party services</h2>
             <p>We rely on a small number of trusted providers to run mourn.wtf:</p>
             <ul>
-                <li><strong>Cloudflare</strong> — hosting, content delivery, and bot protection (Turnstile). Requests to the Service pass through Cloudflare's network.</li>
-                <li><strong>Discord</strong> — our community and support server, and how Premium purchases are currently arranged. Any information you share there is governed by Discord's own policies.</li>
+                <li><strong>Cloudflare</strong>: hosting, content delivery, and bot protection (Turnstile). Requests to the Service pass through Cloudflare's network.</li>
+                <li><strong>Discord</strong>: our community and support server, and how Premium purchases are currently arranged. Any information you share there is governed by Discord's own policies.</li>
             </ul>
             <p>These providers process data on our behalf or under their own privacy policies. We do not sell your personal information.</p>
 
@@ -310,8 +299,8 @@
             <h2>6. Security</h2>
             <p>We take reasonable measures to protect your data, including hashing passwords and serving the Service over HTTPS. No system is perfectly secure, but we work to safeguard your information and limit what we collect.</p>
 
-            <h2>7. Your choices &amp; rights</h2>
-            <p>You can update your profile information at any time, and you may request access to or deletion of your account data by contacting us. Depending on where you live, you may have additional rights under laws such as the GDPR or CCPA; we will honor valid requests as required by applicable law.</p>
+            <h2>7. Your choices and rights</h2>
+            <p>You can update your profile information at any time, and you may request access to or deletion of your account data by contacting us. Depending on where you live, you may have additional rights under laws such as GDPR or CCPA; we will honor valid requests as required by applicable law.</p>
 
             <h2>8. Children</h2>
             <p>mourn.wtf is not directed to children under 13 (or the minimum age of digital consent in your country). We do not knowingly collect personal information from children. If you believe a child has provided us information, please contact us and we will remove it.</p>
@@ -321,19 +310,20 @@
 
             <h2>10. Contact</h2>
             <p>For privacy questions or requests, contact us at <a class="inline" href="mailto:support@mourn.wtf">support@mourn.wtf</a> or via our <a class="inline" href="https://discord.gg/hvkK4gn486" target="_blank" rel="noopener">Discord</a>.</p>
-        </div>
+        </section>
     </main>
 
     <footer>
-        <div class="wrap">
-            <div class="foot-cols">
-                <div class="foot-col"><h4>Support</h4><a href="https://discord.gg/hvkK4gn486" target="_blank" rel="noopener">Discord</a><a href="/docs">Docs</a><a href="/status">Status</a></div>
-                <div class="foot-col"><h4>Contact</h4><a href="mailto:support@mourn.wtf">support@mourn.wtf</a></div>
-                <div class="foot-col"><h4>Legal</h4><a href="/terms">Terms of Service</a><a href="/privacy">Privacy Policy</a><a href="/guidelines">Guidelines</a></div>
-            </div>
-            <div class="copyright">© 2026 mourn.wtf. All rights reserved.</div>
+        <div class="footer-links">
+            <a href="/privacy">Privacy</a>
+            <a href="/terms">Terms</a>
+            <a href="/guidelines">Guidelines</a>
+            <a href="/pricing">Pricing</a>
         </div>
+        <div>✦ mourn.wtf - Elegant Mourning, Hosted.</div>
     </footer>
+</div>
+
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"e358b1944e8744e99a854dac743b2ad7","r":1}' crossorigin="anonymous"></script>
 </body>
 </html>

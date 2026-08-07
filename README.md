@@ -7,7 +7,7 @@ Mournmwtf sev rightd reserved this is made by zyndev and avxmjxon or dmth
 
 -Some more basic profile features
 
--Make temp email detection better by adding more blacklisted sites/domains 
+-~~Make temp email detection better by adding more blacklisted sites/domains~~
 
 -Add email verification eith 6 digit/letter code to verify account
 
@@ -17,7 +17,9 @@ Mournmwtf sev rightd reserved this is made by zyndev and avxmjxon or dmth
 
 -Add/ Fix badges the ones before were horrible and needs fixing, also needs to fix the obtainability functionality
 
--Add mobile support for mobile/tablet users
+-~~Add mobile support for mobile/tablet users~~
+
+-~~Implement terms and privacy pages and link them on the main page footer~~
 
 -Polish site for any bugs/fixes 
 

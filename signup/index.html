@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>mourn.wtf - Sign Up</title>
+    
+    <link rel="stylesheet" href="/src/mobile.css" />
+<title>mourn.wtf - Sign Up</title>
     <link rel="icon" href="/mounrlogomain.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -353,88 +355,138 @@
         return /^[a-z0-9_.]{2,20}$/.test(v);
     }
 
+    const disposableDomains = new Set([
+        "0-mail.com",
+        "0815.ru",
+        "10mail.org",
+        "10minutemail.com",
+        "10minutemail.net",
+        "20minutemail.com",
+        "2prong.com",
+        "33mail.com",
+        "abcflash.net",
+        "afrobacon.com",
+        "anonaddy.me",
+        "anonbox.net",
+        "antichef.com",
+        "bccto.me",
+        "burnermail.io",
+        "chacuo.net",
+        "cust.in",
+        "curryworld.de",
+        "dispostable.com",
+        "dropjar.com",
+        "dropmail.me",
+        "emailfake.com",
+        "emailnator.com",
+        "emailondeck.com",
+        "e4ward.com",
+        "eml.pp.ua",
+        "fakeinbox.com",
+        "fakemail.net",
+        "fastmail.fm",
+        "generator.email",
+        "getairmail.com",
+        "getnada.com",
+        "getonemail.com",
+        "grr.la",
+        "guerrillamail.biz",
+        "guerrillamail.com",
+        "guerrillamail.de",
+        "guerrillamail.info",
+        "guerrillamail.net",
+        "guerrillamail.org",
+        "guerrillamailblock.com",
+        "harakirimail.com",
+        "hushmail.com",
+        "imailzero.com",
+        "inboxbear.com",
+        "inboxkitten.com",
+        "jetable.com",
+        "koszmail.pl",
+        "mail-temporaire.fr",
+        "mailbox.institute",
+        "mailbucket.org",
+        "mailcatch.com",
+        "maildrop.cc",
+        "maildrop.xyz",
+        "mailforspam.com",
+        "mailhazard.com",
+        "mailinator.com",
+        "mailinator.net",
+        "mailinator2.com",
+        "mailme.lv",
+        "mailnesia.com",
+        "mailnesia.net",
+        "mailnator.com",
+        "mailnull.com",
+        "mailsac.com",
+        "mailslurp.com",
+        "mohmal.com",
+        "mytemp.email",
+        "mytempmail.com",
+        "mytrashmail.com",
+        "nada.email",
+        "nowmymail.com",
+        "one-off.email",
+        "owlpic.com",
+        "private-mail.net",
+        "reallymymail.com",
+        "sharklasers.com",
+        "spam4.me",
+        "spambob.com",
+        "spambog.com",
+        "spambog.de",
+        "spambox.us",
+        "spamgourmet.com",
+        "spammotel.com",
+        "temp-mail.io",
+        "temp-mail.org",
+        "temp-mail.ru",
+        "tempail.com",
+        "tempemail.net",
+        "tempinbox.com",
+        "tempmail.com",
+        "tempmail.net",
+        "tempmail.org",
+        "tempmail.plus",
+        "tempmailaddress.com",
+        "tempmailo.com",
+        "tempr.email",
+        "throwawaymail.com",
+        "tmpmail.org",
+        "tmails.net",
+        "trashmail.com",
+        "trashmail.net",
+        "trashmail.ws",
+        "wegwerfmail.de",
+        "yopmail.com",
+        "yopmail.fr",
+        "yopmail.net",
+        "zippymail.info",
+        "zmailpro.com",
+    ]);
+
     function isDisposableEmail(v) {
         const value = String(v || "").trim().toLowerCase();
-        if (!value || !value.includes("@")) return false;
+        const atIndex = value.lastIndexOf("@");
+        if (atIndex <= 0 || atIndex === value.length - 1) return false;
 
-        const domain = value.split("@").pop() || "";
-        const blockedDomains = new Set([
-            "10minutemail.com",
-            "mailinator.com",
-            "mailinator2.com",
-            "maildrop.cc",
-            "tempmail.com",
-            "tempmail.org",
-            "temp-mail.org",
-            "tempmail.plus",
-            "tempmailo.com",
-            "guerrillamail.com",
-            "guerrillamail.biz",
-            "guerrillamail.net",
-            "guerrillamail.org",
-            "yopmail.com",
-            "yopmail.fr",
-            "yopmail.net",
-            "mailnesia.com",
-            "mailtothis.com",
-            "trashmail.com",
-            "throwawaymail.com",
-            "fakemail.net",
-            "getairmail.com",
-            "mailforspam.com",
-            "mailsac.com",
-            "dispostable.com",
-            "mailme.lv",
-            "mailinator.net",
-            "sharklasers.com",
-            "emailondeck.com",
-            "tmails.net",
-            "aghism.com",
-            "mailt.net",
-            "mohmal.com",
-            "maildrop.xyz",
-            "mailbox.institute",
-            "mytrashmail.com",
-            "grr.la",
-            "mintemail.com",
-            "fakeinbox.com",
-            "emailfake.com",
-            "0-mail.com",
-            "anonbox.net",
-            "mailcatch.com",
-            "mailslurp.com",
-            "inboxbear.com",
-            "mailnator.com",
-            "emailnator.com",
-            "dropmail.me",
-            "dropjar.com",
-            "eml.pp.ua",
-            "zmailpro.com",
-            "mailpoof.com",
-            "spam4.me",
-            "e4ward.com",
-            "spamgourmet.com",
-            "10mail.org",
-            "curryworld.de",
-            "getnada.com",
-            "nada.email",
-            "reallymymail.com",
-            "imailzero.com",
-            "mailtempora.com",
-            "mailnesia.net",
-            "mailhazard.com",
-            "spambox.us",
-            "spammotel.com",
-            "voodoo.com",
-            "suremail.info",
-            "mailbucket.org",
-            "temp-mail.ru",
-            "tempmailaddress.com",
-            "mailify.cc",
-            "tempr.email",
-        ]);
+        const rawDomain = value.slice(atIndex + 1);
+        const domain = rawDomain.replace(/^www\./, "").replace(/\.+$/, "");
+        if (!domain) return false;
 
-        return blockedDomains.has(domain) || blockedDomains.has(domain.replace(/^www\./, ""));
+        if (disposableDomains.has(domain)) {
+            return true;
+        }
+
+        for (const blocked of disposableDomains) {
+            if (domain.endsWith("." + blocked)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     async function checkName(v) {

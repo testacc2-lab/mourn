@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>mourn.wtf - Your Whole Internet Presence, One Link</title>
+    
+    <link rel="stylesheet" href="/src/mobile.css" />
+<title>mourn.wtf - Your Whole Internet Presence, One Link</title>
     <meta name="description" content="mourn.wtf - a premium link-in-bio page. One link for everything you are." />
     <link rel="icon" href="/mounrlogomain.png" type="image/png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -285,6 +287,24 @@
             border-top: 1px solid rgba(168,85,247,.12);
         }
 
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin: 0 0 10px;
+        }
+
+        .footer-links a {
+            color: #b7aeca;
+            font-size: .84rem;
+            transition: color .2s;
+        }
+
+        .footer-links a:hover {
+            color: #ece6ff;
+        }
+
         @media (max-width: 900px) {
             .features { grid-template-columns: repeat(2, 1fr); }
         }
@@ -347,7 +367,15 @@
         </article>
     </section>
 
-    <footer>✦ mourn.wtf - Elegant Mourning, Hosted.</footer>
+    <footer>
+        <div class="footer-links">
+            <a href="/terms">Terms</a>
+            <a href="/privacy">Privacy</a>
+            <a href="/guidelines">Guidelines</a>
+            <a href="/pricing">Pricing</a>
+        </div>
+        <div>✦ mourn.wtf - Elegant Mourning, Hosted.</div>
+    </footer>
 </div>
 
 <script>
