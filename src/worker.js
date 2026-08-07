@@ -19,6 +19,25 @@ export default {
         return assetRes;
       }
 
+      const fallbackCandidates = [];
+      const pathname = url.pathname;
+      if (pathname === "/") {
+        fallbackCandidates.push("/index.html");
+      } else if (!pathname.includes(".")) {
+        fallbackCandidates.push(pathname + "/index.html");
+        fallbackCandidates.push(pathname + "/");
+      }
+
+      for (const candidatePath of fallbackCandidates) {
+        const fallbackUrl = new URL(request.url);
+        fallbackUrl.pathname = candidatePath;
+        const fallbackReq = new Request(fallbackUrl.toString(), request);
+        const fallbackRes = await env.ASSETS.fetch(fallbackReq);
+        if (fallbackRes.status !== 404) {
+          return fallbackRes;
+        }
+      }
+
       const routeUsername = usernameFromPathname(url.pathname);
       if (routeUsername) {
         const profileUrl = new URL(request.url);
