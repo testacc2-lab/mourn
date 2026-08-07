@@ -4,6 +4,7 @@ Mournmwtf sev rightd reserved this is made by zyndev and avxmjxon or dmth
 
 
 -Aliases 
+
 -Some more basic profile features
 
 -Make temp email detection better by adding more blacklisted sites/domains 
